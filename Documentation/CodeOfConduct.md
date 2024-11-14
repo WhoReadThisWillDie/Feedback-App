@@ -42,8 +42,8 @@ in a strike.
 will be decided individually for each sprint.
 
 ### 10. Time Registration
-- ** Keep track of time spent on tasks. Accurate time registration helps in planning and workload
-assessment. **
+- Keep track of time spent on tasks. Accurate time registration helps in planning and workload
+assessment.
 
 ### 12. Constructive Feedback
 - When giving feedback, be constructive and focused on improvement. Feedback should aim to 
