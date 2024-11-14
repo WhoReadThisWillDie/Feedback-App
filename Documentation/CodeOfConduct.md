@@ -29,23 +29,19 @@ independently developed and reviewed before integration.
 - If you need assistance, reach out to teammates before the deadline. Do not hold back the team if 
 help is available. If an issue like that arises the team member will receive a strike.
 
-### 7. Code Conventions
-- ** Follow coding standards, using camelCase for classes. Consistency in coding style is important for 
-code readability and maintenance. **
-
-### 8. Accountability for Assigned Tasks
+### 7. Accountability for Assigned Tasks
 - If you have been assigned a task, be able to show proof of work. Lack of accountability will result 
 in a strike.
 
-### 9. SCRUM Meetings
+### 8. SCRUM Meetings
 - Every sprint will include at least one SCRUM meeting outside of class. The timing of these meetings 
 will be decided individually for each sprint.
 
-### 10. Time Registration
+### 9. Time Registration
 - Keep track of time spent on tasks. Accurate time registration helps in planning and workload
 assessment.
 
-### 12. Constructive Feedback
+### 10. Constructive Feedback
 - When giving feedback, be constructive and focused on improvement. Feedback should aim to 
 support each other's growth and enhance team performance.
 
