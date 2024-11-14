@@ -1,1 +1,8 @@
-Here you introduce the project, it's name, it's members and the assignment and client info.
+Introduction 
+Here you introduce the project, 
+Name: 
+Group 3v
+Members:
+Syandana , Mihaela, Simona, Maxim, Danaylo, Julie
+Assignment and client info: 
+the assignment and client info.
