@@ -4,5 +4,5 @@
 * Mihaela - Documentation
 * Simona - Communication with client 
 * Maxim - 
-* Danaylo - Folder management
+* Danylo - Folder management
 * Julie - 
