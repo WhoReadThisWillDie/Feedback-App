@@ -16,6 +16,8 @@
     "vite": "^4.4.9"
   },
   "dependencies": {
-    "page": "^1.11.6"
+    "autoprefixer": "^10.4.20",
+    "page": "^1.11.6",
+    "postcss": "^8.4.49"
   }
 }
