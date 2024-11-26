@@ -144,7 +144,7 @@ The vision is to enhance the existing platform by enabling users to record voice
 
 ## 5. Change Log
 
-26/11/2024: Updated user stories
+26/11/2024: Updated user stories.
 
 ---
 
