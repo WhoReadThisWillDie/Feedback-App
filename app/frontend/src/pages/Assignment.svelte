@@ -3,6 +3,7 @@
 
   import Button from "../components/Button.svelte";
   import RecordButton from "../components/RecordButton.svelte";
+  import AssigmentComponent from "../components/AssigmentTextBox.svelte";
 
   export let params;
 
@@ -22,7 +23,7 @@
     <div>
       <div>
         <h1 class="text-xl font-bold">{assignment.title}</h1>
-        <p class="text-gray-400">{assignment.description}</p>
+        <AssigmentComponent/>
       </div>
 
       <Button className="mt-4" on:click={() => page("/")}>Go back</Button>
