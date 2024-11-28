@@ -9,15 +9,16 @@
     "preview": "vite preview",
     "start": "npm run build && npm run preview"
   },
+  "dependencies": {
+    "page": "^1.11.6",
+    "svelte-hero-icons": "^5.2.0"
+  },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.4.5",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
     "svelte": "^4.2.0",
     "tailwindcss": "^3.4.15",
     "vite": "^4.4.9"
-  },
-  "dependencies": {
-    "autoprefixer": "^10.4.20",
-    "page": "^1.11.6",
-    "postcss": "^8.4.49"
   }
 }
