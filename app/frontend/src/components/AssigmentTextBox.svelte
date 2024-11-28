@@ -2,14 +2,15 @@
     import {onMount} from 'svelte';
 
     let text;
+    export let file;
     let items = [];
 
     onMount(() => {
         loadItems();
     });
 
-    const loadItems = async () => {
-        const assigment = await fetch('https://www.w3.org/TR/WCAG10-HTML-TECHS/html-techniques.txt');
+     const loadItems = async () => {
+        const assigment = await fetch(file);
         text = await assigment.text();
         items = text.split('\n\n');
     };

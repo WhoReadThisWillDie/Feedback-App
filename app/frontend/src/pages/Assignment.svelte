@@ -1,9 +1,8 @@
 <script>
   import page from "page";
-
+  import AssigmentTextBox from "../components/AssigmentTextBox.svelte";
   import Button from "../components/Button.svelte";
   import RecordButton from "../components/RecordButton.svelte";
-  import AssigmentComponent from "../components/AssigmentTextBox.svelte";
 
   export let params;
 
@@ -23,7 +22,7 @@
     <div>
       <div>
         <h1 class="text-xl font-bold">{assignment.title}</h1>
-        <AssigmentComponent/>
+        <AssigmentTextBox file='https://www.w3.org/TR/WCAG10-HTML-TECHS/html-techniques.txt'/>
       </div>
 
       <Button className="mt-4" on:click={() => page("/")}>Go back</Button>
