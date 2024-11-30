@@ -7,11 +7,12 @@
 
     // Update recording explicitly when a new file is recorded
     function handleRecordingUpdate(event) {
-        console.log("Received recording update:", event.detail);
-        audioFile = ""; // Reset before updating
+        console.log('Received recording update:', event.detail);
+        audioFile = ''; // Reset before updating
         audioFile = event.detail.recording;
         extension = event.detail.extension;
     }
+
 </script>
 
 <div>
