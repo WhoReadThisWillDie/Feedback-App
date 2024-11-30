@@ -108,6 +108,98 @@ If information security and privacy issues limit the use of certain technologies
 
 ### Software Design
 
+#### Audio Recording implementation
+
+[You can find the code here](/app/frontend/src/components/RecordButton.svelte)
+
+**State Variables**
+
+```jsx
+let recording; // URL of the recorded audio (Blob)
+let extension = 'webm'; // Default audio format (this will be adjusted dynamically)
+let isRecording = false; // Boolean that tracks whether recording is active
+let gumStream, recorder, chunks = [];
+const dispatch = createEventDispatcher(); // Enables event dispatching to other components
+```
+
+`gumStream`: Stores the microphone stream
+
+`recorder`: Holds the `MediaRecorder` instance for audio recording
+
+`chunks`: Collects audio data chunks during recording.
+
+**MIME type detection**
+
+```jsx
+if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
+    extension = 'webm';
+  } else if (MediaRecorder.isTypeSupported('audio/ogg;codecs=opus')) {
+    extension = 'ogg';
+  } else if (MediaRecorder.isTypeSupported('audio/mpeg')) {
+    extension = 'mp3';
+  } else {
+    console.error('No supported audio MIME types available in this browser.');
+    alert('Your browser does not support audio recording.');
+  }
+```
+
+Depending on the user’s browser, the best-supported audio format is selected. It will display an error on an alert if there is no MIME type supported.
+
+**Toggle recording**
+
+```jsx
+async function toggleRecording() {
+    isRecording = !isRecording;
+    if (isRecording) {
+      startRecording();
+    } else {
+      stopRecording();
+    }
+  }
+```
+
+Toggles the `isRecording` Boolean and starts or stops the recording process accordingly.
+
+**Start recording**
+
+```jsx
+function startRecording() {
+    let constraints = { audio: true };
+
+    navigator.mediaDevices.getUserMedia(constraints).then((stream) => { // Step 1
+      gumStream = stream; // Save the microphone stream
+      chunks = []; // Clear the previous recording data
+      recorder = new MediaRecorder(stream, { mimeType: `audio/${extension}` }); // Step 2
+
+      recorder.ondataavailable = (e) => { // Step 3
+        chunks.push(e.data); // Collect audio chunks
+        if (recorder.state === 'inactive') {
+          const blob = new Blob(chunks, { type: `audio/${extension}` });
+          recording = URL.createObjectURL(blob); // Generate a URL for playback/download
+
+          // Log and emit the event
+          console.log('Dispatching recording-change with', { recording, extension });
+          dispatch('recording-change', { recording, extension }); // Step 4
+        }
+      };
+
+      recorder.start(); // Start recording
+    }).catch((err) => {
+      console.error('Microphone access denied or not supported:', err);
+    });
+  }
+```
+
+Step 1: Requests access to the user’s microphone using `getUserMedia`.
+
+Step 2: `MediaRecorder` is instantiated with the selected MIME type.
+
+Step 3: Audio data gets collected in chunks and is processed into a Blob when the recording is completed.
+
+Step 4: The `recording-change` event is dispatched with the generated recording URL and extension.
+
+**Stop recording**
+
 ### Security Design
 
 ---
