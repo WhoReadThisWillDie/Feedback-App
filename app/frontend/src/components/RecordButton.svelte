@@ -8,6 +8,8 @@
     let isRecording = false;
     let isPaused = false;
     let gumStream, recorder, chunks = [];
+    let timer = 0;
+    let timerInterval;
     const dispatch = createEventDispatcher();
 
     if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
@@ -54,6 +56,8 @@
             recorder.start();
             isRecording = true;
             isPaused = false;
+
+            startTimer();
         }).catch((err) => {
             console.error('Microphone access denied or not supported:', err);
         });
@@ -63,6 +67,7 @@
         if (recorder && recorder.state === 'recording') {
             recorder.pause();
             isPaused = true;
+            clearInterval(timerInterval);
         }
     }
 
@@ -70,6 +75,7 @@
         if (recorder && recorder.state === 'paused') {
             recorder.resume();
             isPaused = false;
+            startTimer();
         }
     }
 
@@ -80,7 +86,23 @@
         }
         isRecording = false;
         isPaused = false;
+
+        clearInterval(timerInterval);
+        timer = 0;
+
         dispatch('recording-change');
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timer++;
+        }, 1000);
+    }
+
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const formattedSeconds = seconds % 60;
+        return `${minutes}:${formattedSeconds < 10 ? '0' : ''}${formattedSeconds}`;
     }
 
 </script>
@@ -92,6 +114,9 @@
     >
         <Icon src={!isRecording ? Play : isPaused ? Play : Pause} solid class="text-white size-10"/>
     </Button>
+    <div class="text-xl font-semibold m-2">
+        {isRecording ? `Recording: ${formatTime(timer)}` : "Not Recording"}
+    </div>
     <div class="p-4">
         <Button
                 on:click={stopRecording}
