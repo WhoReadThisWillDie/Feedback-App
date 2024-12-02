@@ -3,6 +3,7 @@
   import AssigmentTextBox from "../components/AssigmentTextBox.svelte";
   import Button from "../components/Button.svelte";
   import RecordButton from "../components/RecordButton.svelte";
+  import AudioRecordComponent from "../components/AudioRecordComponent.svelte";
 
   export let params;
 
@@ -27,17 +28,8 @@
 
       <Button className="mt-4" on:click={() => page("/")}>Go back</Button>
     </div>
-
     <div class="flex flex-col gap-4">
-      <h2 class="font-medium">Transcript feedback</h2>
-      <textarea
-        placeholder="Type here..."
-        class="w-full p-2 bg-gray-800 rounded-lg resize-none min-h-32"
-      />
-      <RecordButton />
-      <div class="flex justify-center">
-        <Button>Submit</Button>
-      </div>
+      <AudioRecordComponent/>
     </div>
   </div>
 {/if}
