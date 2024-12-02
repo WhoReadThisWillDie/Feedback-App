@@ -24,3 +24,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Vosk model files
+vosk-model-en-us-0.22
+vosk-model-small-en-us-0.15
