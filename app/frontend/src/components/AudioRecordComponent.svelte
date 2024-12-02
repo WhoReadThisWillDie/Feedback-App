@@ -29,6 +29,6 @@
         class="w-full p-2 bg-gray-800 rounded-lg resize-none min-h-32"
 />
 <RecordButton on:recording-change={handleRecordingUpdate}/>
-<div class="flex justify-center">
-    <Button>Submit</Button>
-</div>
+<!--<div class="flex justify-center">-->
+<!--    <Button>Submit</Button>-->
+<!--</div>-->
