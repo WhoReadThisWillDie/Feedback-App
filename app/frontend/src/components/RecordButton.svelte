@@ -108,15 +108,15 @@
 </script>
 
 <div class="flex flex-col items-center">
+    <div class="text-xl font-semibold mb-2">
+        {isRecording ? `Recording: ${formatTime(timer)}` : "Not Recording"}
+    </div>
     <Button
             className="!rounded-full !p-0 w-16 h-16 flex items-center justify-center"
             on:click={toggleRecording}
     >
         <Icon src={!isRecording ? Play : isPaused ? Play : Pause} solid class="text-white size-10"/>
     </Button>
-    <div class="text-xl font-semibold m-2">
-        {isRecording ? `Recording: ${formatTime(timer)}` : "Not Recording"}
-    </div>
     <div class="p-4">
         <Button
                 on:click={stopRecording}
