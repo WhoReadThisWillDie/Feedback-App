@@ -12,6 +12,15 @@ app.use("/users", userRouter);
 app.use("/assignments", assignmentRouter);
 app.use("/feedback", feedbackRouter);
 
-app.listen(port, () => {
-  console.log(`App listening on port ${port}`)
-})
+initializeDatabase()
+  .then((db) => {
+    console.log("Database initialized.");
+
+    app.listen(port, () => {
+      console.log(`App listening on port ${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Failed to initialize the database:", err);
+    process.exit(1);
+  });
