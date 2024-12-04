@@ -3,7 +3,7 @@
   import AssigmentTextBox from "../components/AssigmentTextBox.svelte";
   import Button from "../components/Button.svelte";
   import RecordButton from "../components/RecordButton.svelte";
-
+  import AudioFile from "../components/AudioFile.svelte";
   export let params;
 
   let assignment;
@@ -15,6 +15,11 @@
     };
   };
   fetchAssignment();
+
+  export const audioTracks = [
+    { url: 'https://sveltejs.github.io/assets/music/strauss.mp3', feedbackGiver: 'Eelco' },
+  ];
+
 </script>
 
 {#if assignment}
@@ -34,6 +39,11 @@
         placeholder="Type here..."
         class="w-full p-2 bg-gray-800 rounded-lg resize-none min-h-32"
       />
+      <div class="flex flex-wrap justify-center">
+        {#each audioTracks as track}
+          <AudioFile url={track.url}/>
+        {/each}
+      </div>
       <RecordButton />
       <div class="flex justify-center">
         <Button>Submit</Button>
