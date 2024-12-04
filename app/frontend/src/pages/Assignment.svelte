@@ -49,7 +49,6 @@
       <div class="flex justify-center">
         <Button>Submit</Button>
       </div>
-      <AudioRecordComponent/>
     </div>
   </div>
 {/if}
