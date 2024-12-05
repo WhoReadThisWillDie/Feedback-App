@@ -35,20 +35,12 @@
       <Button className="mt-4" on:click={() => page("/")}>Go back</Button>
     </div>
     <div class="flex flex-col gap-4">
-      <h2 class="font-medium">Transcript feedback</h2>
-      <textarea
-        placeholder="Type here..."
-        class="w-full p-2 bg-gray-800 rounded-lg resize-none min-h-32"
-      />
-      <div class="flex flex-wrap justify-center">
-        {#each audioTracks as track}
-          <AudioFile url={track.url}/>
-        {/each}
-      </div>
-      <RecordButton />
-      <div class="flex justify-center">
-        <Button>Submit</Button>
-      </div>
+<!--      <div class="flex flex-wrap justify-center">-->
+        <!--{#each audioTracks as track}-->
+        <!--  <AudioFile url={track.url}/>-->
+        <!--{/each}-->
+<!--      </div>-->
+      <AudioRecordComponent/>
     </div>
   </div>
 {/if}
