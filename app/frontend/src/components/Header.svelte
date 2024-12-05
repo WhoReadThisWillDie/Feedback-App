@@ -16,7 +16,7 @@
 <style>
   .gradient-before::before {
     z-index: -1;
-    @apply opacity-40;
+    @apply opacity-50;
     filter: blur(10px);
   }
 </style>
