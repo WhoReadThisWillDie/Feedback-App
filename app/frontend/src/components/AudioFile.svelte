@@ -3,6 +3,7 @@
     import Button from "./Button.svelte";
 
     export let url;
+    export let extension;
     let audioElement;
     let time = 0;
     let duration = 0;
@@ -39,6 +40,13 @@
         const percentage = clickPosition / width;
         audioElement.currentTime = percentage * duration;
     }
+
+    $: if (audioElement && url) {
+        audioElement.pause(); // Stop current playback
+        audioElement.src = url; // Update the source
+        audioElement.load();// Reload the audio
+    }
+
 </script>
 
 <div class="mb-4 w-[400px]">

@@ -43,6 +43,7 @@
 
             recorder.ondataavailable = (e) => {
                 chunks.push(e.data);
+                console.log('Recorder state:', recorder.state);
                 if (recorder.state === 'inactive') {
                     const blob = new Blob(chunks, {type: `audio/${extension}`});
                     recording = URL.createObjectURL(blob);
@@ -92,6 +93,10 @@
 
             recorder.stop();
             gumStream.getAudioTracks()[0].stop();
+            const blob = new Blob(chunks, {type: `audio/${extension}`});
+            recording = URL.createObjectURL(blob);
+            console.log('Dispatching recording-change from stopRecording with', {recording, extension});
+            dispatch('recording-change', {recording, extension});
         }
 
         isRecording = false;
