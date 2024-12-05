@@ -43,7 +43,6 @@
 
             recorder.ondataavailable = (e) => {
                 chunks.push(e.data);
-                console.log('Recorder state:', recorder.state);
                 if (recorder.state === 'inactive') {
                     const blob = new Blob(chunks, {type: `audio/${extension}`});
                     recording = URL.createObjectURL(blob);
@@ -101,7 +100,6 @@
         clearInterval(timerInterval);
         timer = 0;
     }
-
 
     function startTimer() {
         timerInterval = setInterval(() => {
