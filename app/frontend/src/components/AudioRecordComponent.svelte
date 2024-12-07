@@ -1,6 +1,7 @@
 <script>
     import RecordButton from "./RecordButton.svelte";
     import AudioFile from "./AudioFile.svelte";
+    import AudioPlayer from "./AudioPlayer.svelte";
 
     let audioFile;
     let extension;
