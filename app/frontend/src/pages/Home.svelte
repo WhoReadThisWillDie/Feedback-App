@@ -37,7 +37,7 @@
   ];
 </script>
 
-<div class="flex flex-col grid-cols-2 gap-4 lg:grid">
+<div class="flex flex-col grid-cols-2 gap-4 lg:grid text-textColor">
   {#each assignments as assignment}
     <AssignmentCard {assignment} />
   {/each}

@@ -115,7 +115,7 @@
             className="!rounded-full !p-0 w-16 h-16 flex items-center justify-center"
             on:click={toggleRecording}
     >
-        <Icon src={!isRecording ? Play : isPaused ? Play : Pause} solid class="text-black size-10"/>
+        <Icon src={!isRecording ? Play : isPaused ? Play : Pause} solid class="text-textColor size-10"/>
     </Button>
     <div class="p-4">
         <Button

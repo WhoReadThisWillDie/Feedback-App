@@ -3,7 +3,7 @@
 </script>
 
 <button
-  class="px-4 py-1 rounded-lg gradient-before gradient-border text-black {className}"
+  class="px-4 py-1 rounded-lg gradient-before gradient-border text-textColor {className}"
   on:click
 >
   <slot />

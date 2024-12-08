@@ -16,7 +16,7 @@
     };
 
 </script>
-    <div class="max-h-[550px] overflow-y-auto p-4 border-[1px] border-[solid] border-[#ccc] rounded-lg">
+    <div class="max-h-[550px] overflow-y-auto p-4 border-[1px] border-[solid] border-[#ccc] rounded-lg text-textColor">
         {#each items as item}
             <p>{item}</p>
         {/each}

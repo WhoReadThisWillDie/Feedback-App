@@ -8,7 +8,7 @@
 </script>
 
 <Card>
-  <p class="text-lg font-medium">{assignment.title}</p>
+  <p class="text-lg font-medium text-textColor">{assignment.title}</p>
   <p class="text-gray-400">{assignment.description}</p>
 
   <Button
