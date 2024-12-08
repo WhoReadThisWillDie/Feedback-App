@@ -31,9 +31,7 @@ async function initializeDatabase() {
     //Path to SQL directory
     const sqlDirectory = path.join(__dirname, "sql");
 
-    await executeSQLFromFile(path.join(sqlDirectory, "users.sql"));
     await executeSQLFromFile(path.join(sqlDirectory, "feedback.sql"));
-    await executeSQLFromFile(path.join(sqlDirectory, "assignments.sql"));
 
     console.log("Database created successfully.");
   } else {

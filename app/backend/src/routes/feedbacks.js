@@ -11,6 +11,6 @@ router.post("/", feedbackController.addFeedback);
 
 router.put("/:id", feedbackController.editFeedbackById);
 
-router.post("/:id", feedbackController.deleteFeedbackById);
+router.delete("/:id", feedbackController.deleteFeedbackById);
 
 export default router;
