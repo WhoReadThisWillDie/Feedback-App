@@ -1,27 +1,5 @@
 # REST  API Specification
 
-## Users Endpoints
-
-| **Method** | **Endpoint**             | **Description**                | **Request Body**                                   | **Response**                                                  | **Status Codes**                              |
-|------------|--------------------------|--------------------------------|--------------------------------------------------|--------------------------------------------------------------|-----------------------------------------------|
-| `GET`      | `/users`                | Fetch all users.               | N/A                                              | Array of user objects.                                        | `200 OK`, `500 Internal Server Error`         |
-| `GET`      | `/users/{user_id}`      | Fetch a specific user by ID.   | N/A                                              | User object.                                                  | `200 OK`, `404 Not Found`, `500 Internal Server Error` |
-| `GET`      | `/users/{user_id}/feedback`  | Fetch all feedback given by a user. | N/A                                              | Array of feedback objects by the user.                       | `200 OK`, `404 Not Found`, `500 Internal Server Error` |
-| `POST`     | `/users`                | Add a new user.                | `{ "name": "John", "email": "john@xyz.com", "role": "Instructor" }` | Created user object.                                          | `201 Created`, `400 Bad Request`, `500 Internal Server Error` |
-| `PUT`      | `/users/{user_id}`      | Update an existing user.       | `{ "name": "John", "email": "john@xyz.com", "role": "Admin" }` | Updated user object.                                          | `200 OK`, `400 Bad Request`, `404 Not Found`, `500 Internal Server Error` |
-| `DELETE`   | `/users/{user_id}`      | Delete a user.                 | N/A                                              | `{"message": "User deleted successfully"}`                   | `200 OK`, `404 Not Found`, `500 Internal Server Error` |
-
-## Assignment Endpoints
-
-| **Method** | **Endpoint**                   | **Description**                | **Request Body**                                   | **Response**                                                  | **Status Codes**                              |
-|------------|--------------------------------|--------------------------------|--------------------------------------------------|--------------------------------------------------------------|-----------------------------------------------|
-| `GET`      | `/assignments`                | Fetch all assignments.         | N/A                                              | Array of assignment objects.                                  | `200 OK`, `500 Internal Server Error`         |
-| `GET`      | `/assignments/{assignment_id}`| Fetch a specific assignment by ID. | N/A                                              | Assignment object.                                           | `200 OK`, `404 Not Found`, `500 Internal Server Error` |
-| `GET`      | `/assignments/{assignment_id}/feedback` | Fetch all feedback for a specific assignment. | N/A                                              | Array of feedback objects for the assignment.                | `200 OK`, `404 Not Found`, `500 Internal Server Error` |
-| `POST`     | `/assignments`                | Add a new assignment.          | `{ "title": "Assignment 1", "description": "Details", "date_created": "2024-12-01T10:00:00Z", "date_updated": "2024-12-01T10:00:00Z" }` | Created assignment object.                                   | `201 Created`, `400 Bad Request`, `500 Internal Server Error` |
-| `PUT`      | `/assignments/{assignment_id}`| Update an assignment.          | `{ "title": "Updated Assignment", "description": "Updated details" }` | Updated assignment object.                                   | `200 OK`, `400 Bad Request`, `404 Not Found`, `500 Internal Server Error` |
-| `DELETE`   | `/assignments/{assignment_id}`| Delete an assignment.          | N/A                                              | `{"message": "Assignment deleted successfully"}`             | `200 OK`, `404 Not Found`, `500 Internal Server Error` |
-
 ## Feedback Endpoints
 
 | **Method** | **Endpoint**                  | **Description**                     | **Request Body**                                   | **Response**                                                  | **Status Codes**                              |
