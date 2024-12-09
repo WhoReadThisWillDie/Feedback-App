@@ -102,6 +102,22 @@ If information security and privacy issues limit the use of certain technologies
 
 ### Database Design
 
+
+| Attributes           | Description                                                                                     |
+|----------------------|---------------------------------------------------------------------------------|
+| `feedback_id`        | Primary Key (auto incrementing integer)                                                         |
+| `audio_file_path`    | Location of the audio file in the system in the format of a file path (String)                  |
+| `transcription_text` | Transcribed text from the audio (String)                                                      |
+| `date_created`       | Date of when the feedback was created (TIMESTAMP)                                               |
+| `date_updated`       | Date of when the feedback was updated (TIMESTAMP)                                               |
+
+---
+
+## TIMESTAMP vs DATE/DATETIME
+
+As Scorion is used globally, **TIMESTAMP** is a better choice because it automatically adjusts for time zones. It stores the value in UTC and converts it to the local time (according to the machine accessing it) when queried.
+
+
 ### User Interface Design
 
 ### Hardware Design
