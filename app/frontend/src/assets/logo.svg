@@ -19,7 +19,7 @@
       }
 
       .cls-4 {
-        fill: #fff;
+        fill: #000;
       }
     </style>
     <clipPath id="clippath">
