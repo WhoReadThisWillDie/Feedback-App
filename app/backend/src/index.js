@@ -7,8 +7,6 @@ const app = express();
 const port = 3000
 
 app.use(bodyParser.json());
-app.use("/users", userRouter);
-app.use("/assignments", assignmentRouter);
 app.use("/feedback", feedbackRouter);
 
 initializeDatabase()
