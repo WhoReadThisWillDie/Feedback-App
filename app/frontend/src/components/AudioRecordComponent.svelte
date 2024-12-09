@@ -14,10 +14,10 @@
 </script>
 
 
-<h2 class="font-medium text-">Feedback</h2>
+<h2 class="font-medium text-textColor">Feedback</h2>
 <textarea
         placeholder="Type here..."
-        class="w-full p-2 bg-gray-800 rounded-lg resize-none min-h-32"
+        class="w-full p-2 bg-white rounded-lg resize-none min-h-32 border border-gray-150 border-2"
 />
 <div class="flex flex-row">
     <RecordButton on:recording-change={handleRecordingUpdate}/>

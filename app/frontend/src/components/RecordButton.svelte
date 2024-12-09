@@ -128,13 +128,13 @@
             className="!rounded-full !p-0 w-12 h-12 flex items-center justify-center"
             on:click={toggleRecording}
     >
-        <Icon src={!isRecording ? Microphone : isPaused ? Microphone : Pause} solid class="text-white size-8"/>
+        <Icon src={!isRecording ? Microphone : isPaused ? Microphone : Pause} solid class="text-textColor size-8"/>
     </Button>
     <Button
             className="!rounded-full !p-0 ml-2 w-12 h-12 flex items-center justify-center"
             disabled={!isRecording && chunks.length === 0} on:click={stopRecording}
     >
-        <Icon src="{Stop}" solid class="text-white size-8"/>
+        <Icon src="{Stop}" solid class="text-textColor size-8"/>
     </Button>
     <div class="p-4">
         <Button
