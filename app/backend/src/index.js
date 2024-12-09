@@ -1,7 +1,5 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import userRouter from './routes/users.js';
-import assignmentRouter from './routes/assignments.js';
 import feedbackRouter from './routes/feedbacks.js';
 import initializeDatabase from './db.js';
 
