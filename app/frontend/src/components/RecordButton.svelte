@@ -94,7 +94,6 @@
             recorder.stop();
             gumStream.getAudioTracks()[0].stop();
         }
-
         isRecording = false;
         isPaused = false;
 
