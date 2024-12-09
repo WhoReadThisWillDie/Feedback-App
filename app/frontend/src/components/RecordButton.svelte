@@ -118,10 +118,4 @@
     >
         <Icon src={!isRecording ? Play : isPaused ? Play : Pause} solid class="text-textColor size-10"/>
     </Button>
-    <div class="p-4">
-        <Button
-                on:click={stopRecording}
-        >Submit
-        </Button>
-    </div>
 </div>
