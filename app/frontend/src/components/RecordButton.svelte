@@ -43,11 +43,10 @@
 
             recorder.ondataavailable = (e) => {
                 chunks.push(e.data);
+                console.log('Recorder state:', recorder.state);
                 if (recorder.state === 'inactive') {
                     const blob = new Blob(chunks, {type: `audio/${extension}`});
                     recording = URL.createObjectURL(blob);
-
-                    // Log and emit the event
                     console.log('Dispatching recording-change with', {recording, extension});
                     dispatch('recording-change', {recording, extension});
                 }
@@ -83,14 +82,16 @@
         if (recorder && recorder.state !== 'inactive') {
             recorder.stop();
             gumStream.getAudioTracks()[0].stop();
+            const blob = new Blob(chunks, {type: `audio/${extension}`});
+            recording = URL.createObjectURL(blob);
+            console.log('Dispatching recording-change from stopRecording with', {recording, extension});
+            dispatch('recording-change', {recording, extension});
         }
         isRecording = false;
         isPaused = false;
 
         clearInterval(timerInterval);
         timer = 0;
-
-        dispatch('recording-change');
     }
 
     function startTimer() {
@@ -117,10 +118,4 @@
     >
         <Icon src={!isRecording ? Play : isPaused ? Play : Pause} solid class="text-textColor size-10"/>
     </Button>
-    <div class="p-4">
-        <Button
-                on:click={stopRecording}
-        >Submit
-        </Button>
-    </div>
 </div>
