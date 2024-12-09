@@ -102,11 +102,36 @@ If information security and privacy issues limit the use of certain technologies
 
 ### Database Design
 
+![Database Design](/docs/resources/database_design.jpg)
+
+| Attributes           | Description                                                                                     |
+|----------------------|---------------------------------------------------------------------------------|
+| `feedback_id`        | Primary Key (auto incrementing integer)                                                         |
+| `audio_file_path`    | Location of the audio file in the system in the format of a file path (String)                  |
+| `transcription_text` | Transcribed text from the audio (String)                                                      |
+| `date_created`       | Date of when the feedback was created (TIMESTAMP)                                               |
+| `date_updated`       | Date of when the feedback was updated (TIMESTAMP)                                               |
+
+---
+
+## TIMESTAMP vs DATE/DATETIME
+
+As Scorion is used globally, **TIMESTAMP** is a better choice because it automatically adjusts for time zones. It stores the value in UTC and converts it to the local time (according to the machine accessing it) when queried.
+
+
 ### User Interface Design
 
 ### Hardware Design
 
 ### Software Design
+
+#### Audio recording functionality
+
+The [RecordButton](../app/frontend/src/components/RecordButton.svelte) component consists out of 3 buttons, a microphone/pause button, a stop button, and a submit button.
+
+When pressing the start button, the application starts recording the users audio from the user's microphone. While in the progress of recording, it is possible to pause and resume (using the same button as when you start recording). When the user is finished recording their audio, they can click the stop button, which exports the audio file to a parent component ([AudioRecordComponent.svelte](../app/frontend/src/components/AudioRecordComponent.svelte)).
+
+The AudioRecordComponent receives the audio file and then proceeds to export it to a child component ([AudioFile.svelte](../app/frontend/src/components/AudioFile.svelte)). This component then allows the audio file to be played by the user.
 
 ### Security Design
 
