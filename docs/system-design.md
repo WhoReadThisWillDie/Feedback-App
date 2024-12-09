@@ -102,6 +102,7 @@ If information security and privacy issues limit the use of certain technologies
 
 ### Database Design
 
+![Database Design](/docs/resources/database_design.jpg)
 
 | Attributes           | Description                                                                                     |
 |----------------------|---------------------------------------------------------------------------------|
