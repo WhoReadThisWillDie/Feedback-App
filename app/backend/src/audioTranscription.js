@@ -32,8 +32,8 @@ function convertTo16KHzMono(inputFilePath, outputFilePath) {
  * @returns {Promise<{channelData: *, sampleRate: *}>} Promise with the decoded WAV file data
  */
 async function readWavFile(filePath) {
-    const buffer = fs.readFileSync(filePath) // Читаем WAV-файл
-    const decodedWav = await decode(buffer) // Декодируем WAV-файл
+    const buffer = fs.readFileSync(filePath)
+    const decodedWav = await decode(buffer)
     return { sampleRate: decodedWav.sampleRate, channelData: decodedWav.channelData[0] }
 }
 
@@ -55,7 +55,7 @@ function sliceAudio(channelData, sampleRate, chunkLength) {
 
 /**
  * Transcribes an audio file using the Whisper model.
- * If the audio file does not match the required format, it will be automatically converted to 16kHz mono channel.
+ * If the audio file does not match the required format, it will be automatically converted to 16kHz mono.
  * @param filePath path to the audio file
  * @returns {Promise<string>} Promise with the transcribed text
  */
