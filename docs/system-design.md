@@ -121,6 +121,17 @@ As Scorion is used globally, **TIMESTAMP** is a better choice because it automat
 
 ### User Interface Design
 
+The client wants us to design a feedback form, which has a text field, a recording function and a transcribing function. From what we've seen of the client's platform, we designed the following mockups for how the user would interact with the platform to record their audio:
+
+**Screen 1**: This is the first state of the component. An empty text form, with some buttons in the bottom. When the first button is pressed (the button with the microphone icon) the application starts recording the user's audio from their microphone. And we go to screen 2.
+![User interface screen 1](./resources/UserInterface1.png)
+
+**Screen 2**: The first button's icon changes to a pause icon. The user can now either click on the pause button, which pauses the recording (which also changes the icon back to the microphone icon), and click it again to resume recording. Or the stop button (the second button), which stops recording and creates an audio file component (screen 3).
+![User interface screen 2](./resources/UserInterface2.png)
+
+**Screen 3**: When the stop button is pressed, an audio file gets displayed and can be played. When pressing the submit button, the file gets saved to the database.
+![User interface screen 3](./resources/UserInterface3.png)
+
 ### Hardware Design
 
 ### Software Design
