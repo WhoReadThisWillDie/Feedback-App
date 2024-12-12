@@ -1,75 +1,87 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import wav from 'wav';
-import vosk from 'vosk';
-import { Readable } from 'stream';
+import { pipeline } from '@huggingface/transformers'
+import fs from 'fs'
+import { decode } from 'wav-decoder'
+import ffmpeg from 'fluent-ffmpeg'
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Download the Whisper model (if not already downloaded)
+const model = await pipeline('automatic-speech-recognition', 'distil-whisper/distil-small.en', {
+    dtype: 'fp32' // calculation data type
+})
 
-const MODEL_PATH = path.resolve(__dirname, '../vosk-model-en-us-0.22');
-
-if (!fs.existsSync(MODEL_PATH)) {
-    console.error('Model not found. Please check the path.');
-    process.exit(1);
-}
-
-// set to negative value to disable logs
-vosk.setLogLevel(0);
-const model = new vosk.Model(MODEL_PATH);
-
-async function processAudio(filePath) {
-    const resolvedFilePath = path.resolve(filePath);
-    if (!fs.existsSync(resolvedFilePath)) {
-        throw Error('File not found. Please check the path.');
-    }
-
+/**
+ * Converts an audio file to 16kHz mono format
+ * @param inputFilePath path to the input audio file
+ * @param outputFilePath path to the output audio file
+ * @returns {Promise<unknown>} promise with the path to the output file
+ */
+function convertTo16KHzMono(inputFilePath, outputFilePath) {
     return new Promise((resolve, reject) => {
-        const wavReader = new wav.Reader();
-        const wavReadable = new Readable().wrap(wavReader);
-
-        wavReader.on('format', async ({ audioFormat, sampleRate, channels }) => {
-            if (audioFormat !== 1 || channels !== 1) {
-                reject(new Error('Audio file must be WAV format mono PCM.'));
-            }
-
-            const recognizer = new vosk.Recognizer({ model, sampleRate });
-            let result = ''
-
-            try {
-                for await (const data of wavReadable) {
-                    if (recognizer.acceptWaveform(data)) {
-                        let text = recognizer.result().text
-                        result += text.charAt(0).toUpperCase() + text.slice(1) + ". ";
-                        recognizer.reset()
-                    }
-                }
-
-                let text = recognizer.finalResult().text
-                result += text.charAt(0).toUpperCase() + text.slice(1) + ".";
-                resolve(result);
-            } catch (err) {
-                reject(err);
-            } finally {
-                recognizer.free();
-            }
-        });
-
-        // creates a read stream with maximum 4kb of data passed to the reader until it processes it
-        fs.createReadStream(resolvedFilePath, { highWaterMark: 4096 }).pipe(wavReader);
-    });
+        ffmpeg(inputFilePath)
+            .audioFrequency(16000)
+            .audioChannels(1)
+            .output(outputFilePath)
+            .on('end', () => resolve(outputFilePath))
+            .on('error', (err) => reject(err))
+            .run()
+    })
 }
 
 /**
- * Transcribes the audio file located at the given file path using Vosk speech recognition model
- * @param filePath The path to the audio file to be transcribed.
- * @returns {Promise<unknown>} A promise with the transcribed text or undefined if an error occurs
+ * Reads and decodes a WAV file
+ * @param filePath path to the WAV file
+ * @returns {Promise<{channelData: *, sampleRate: *}>} Promise with the decoded WAV file data
+ */
+async function readWavFile(filePath) {
+    const buffer = fs.readFileSync(filePath)
+    const decodedWav = await decode(buffer)
+    return { sampleRate: decodedWav.sampleRate, channelData: decodedWav.channelData[0] }
+}
+
+/**
+ * Slices an audio file into chunks of a specified length
+ * @param channelData audio file data
+ * @param sampleRate sample rate of the audio file
+ * @param chunkLength desired chunk length in seconds
+ * @returns {*[]} array of audio chunks
+ */
+function sliceAudio(channelData, sampleRate, chunkLength) {
+    const chunkSize = sampleRate * chunkLength
+    const chunks = []
+    for (let i = 0; i < channelData.length; i += chunkSize) {
+        chunks.push(channelData.slice(i, i + chunkSize))
+    }
+    return chunks
+}
+
+/**
+ * Transcribes an audio file using the Whisper model.
+ * If the audio file does not match the required format, it will be automatically converted to 16kHz mono.
+ * @param filePath path to the audio file
+ * @returns {Promise<string>} Promise with the transcribed text
  */
 export async function transcribeAudio(filePath) {
-    try {
-        return await processAudio(filePath);
-    } catch (err) {
-        console.error('Error during processing:', err.message);
+    let { sampleRate, channelData } = await readWavFile(filePath)
+    let processedFilePath = filePath
+    if (sampleRate !== 16000) {
+        const tempFilePath = '../samples/temp.wav'
+        processedFilePath = await convertTo16KHzMono(filePath, tempFilePath)
+
+        // update decoded data if the file was converted
+        const decodedData = await readWavFile(tempFilePath)
+        channelData = decodedData.channelData
     }
+
+    let transcriptionResult = ''
+    for (const chunk of sliceAudio(channelData, 16000, 30)) {
+        const result = await model(chunk)
+        transcriptionResult += result.text
+    }
+
+    if (processedFilePath !== filePath) {
+        fs.unlink(processedFilePath, (err) => {
+            if (err) console.error('ERROR: Error deleting temp file:', err)
+        })
+    }
+
+    return transcriptionResult
 }
