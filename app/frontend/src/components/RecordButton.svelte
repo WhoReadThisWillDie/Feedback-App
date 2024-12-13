@@ -206,9 +206,9 @@
     {#if showSuccess}
         <div transition:fade class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
             <div class="bg-white p-6 rounded shadow-lg text-center w-80 animate-fade-in">
-                <h2 class="text-2xl font-bold text-green-500">FeedBack saved!</h2>
+                <h2 class="text-2xl font-bold gradient-text">FeedBack saved!</h2>
                 <p class="text-gray-600 mt-2">We appreciate your desire to study.</p>
-                <div class="w-12 h-12 bg-green-500 rounded-full mt-4 mx-auto flex items-center justify-center animate-tick">
+                <div class="w-12 h-12 gradient-linear rounded-full mt-4 mx-auto flex items-center justify-center animate-tick">
                     <svg
                             xmlns="http://www.w3.org/2000/svg"
                             class="w-6 h-6 text-white"
@@ -224,6 +224,14 @@
 </div>
 
 <style>
+    .gradient-text {
+        background: linear-gradient(90deg, #d60dc1, #4800ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .gradient-linear {
+        background: linear-gradient(90deg, #d60dc1, #4800ff);
+    }
     .fixed {
         transition: opacity 0.5s ease-in-out;
     }
