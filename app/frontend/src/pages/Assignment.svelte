@@ -19,9 +19,8 @@
 
 </script>
 
-  <div class="flex flex-col grid-cols-2 gap-8 lg:grid">
-    <div class="flex flex-col gap-4">
-      <AudioRecordComponent/>
-    </div>
+<div class="flex flex-col grid-cols-2 gap-8 lg:grid">
+  <div class="flex flex-col gap-4">
+    <AudioRecordComponent/>
   </div>
-
+</div>
