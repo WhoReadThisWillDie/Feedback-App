@@ -61,39 +61,26 @@ function sliceAudio(channelData, sampleRate, chunkLength) {
  * @returns {Promise<string>} Promise with the transcribed text
  */
 export async function transcribeAudio(filePath) {
-    let sampleRate, channelData;
-    let processedFilePath = filePath
+    let { sampleRate, channelData } = await readWavFile(filePath)
 
-    try {
-        ({ sampleRate, channelData } = await readWavFile(filePath));
-        console.log(`Sample rate compatible: ${sampleRate}`)
-    } catch (err) {
-        console.log('Incompatible wav file, attempting to convert.')
-        const tempFilePath = '../recordings/converted_temp.wav';
-        processedFilePath = await convertTo16KHzMono(filePath, tempFilePath);
+    let tempFilePath = null
+    if (sampleRate !== 16000) {
+        await convertTo16KHzMono(filePath, tempFilePath)
 
-        ({sampleRate, channelData} = await readWavFile(processedFilePath));
+        // update decoded data if the file was converted
+        const decodedData = await readWavFile(tempFilePath)
+        channelData = decodedData.channelData
     }
 
-    if(sampleRate !== 16000){
-        console.log('Incompatible sample rate, attempting to convert.')
-        const tempFilePath = '../recordings/converted_temp.wav';
-        processedFilePath = await convertTo16KHzMono(filePath, tempFilePath);
-
-        ({channelData} = await readWavFile(processedFilePath));
-    }
-
-    let transcriptionResult = "";
+    let transcriptionResult = ''
     for (const chunk of sliceAudio(channelData, 16000, 30)) {
-        const result = await model(chunk);
-        transcriptionResult += result.text;
+        const result = await model(chunk)
+        transcriptionResult += result.text
     }
 
-    if (processedFilePath !== filePath) {
-        fs.unlink(processedFilePath, (err) => {
-            if (err) console.error('ERROR: Error deleting temp file:', err);
-        });
-    }
+    fs.unlink(tempFilePath, (err) => {
+        if (err) console.error('ERROR: Error deleting temp file:', err)
+    })
 
-    return transcriptionResult;
+    return transcriptionResult
 }
