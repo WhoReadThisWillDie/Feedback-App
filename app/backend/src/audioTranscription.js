@@ -61,10 +61,10 @@ function sliceAudio(channelData, sampleRate, chunkLength) {
  */
 export async function transcribeAudio(filePath) {
     let { sampleRate, channelData } = await readWavFile(filePath)
-    let processedFilePath = filePath
+
+    let tempFilePath = null
     if (sampleRate !== 16000) {
-        const tempFilePath = '../samples/temp.wav'
-        processedFilePath = await convertTo16KHzMono(filePath, tempFilePath)
+        await convertTo16KHzMono(filePath, tempFilePath)
 
         // update decoded data if the file was converted
         const decodedData = await readWavFile(tempFilePath)
@@ -77,11 +77,9 @@ export async function transcribeAudio(filePath) {
         transcriptionResult += result.text
     }
 
-    if (processedFilePath !== filePath) {
-        fs.unlink(processedFilePath, (err) => {
-            if (err) console.error('ERROR: Error deleting temp file:', err)
-        })
-    }
+    fs.unlink(tempFilePath, (err) => {
+        if (err) console.error('ERROR: Error deleting temp file:', err)
+    })
 
     return transcriptionResult
 }

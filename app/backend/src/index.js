@@ -1,13 +1,20 @@
 import express from 'express';
-import bodyParser from 'body-parser';
+import cors from 'cors';
 import feedbackRouter from './routes/feedbacks.js';
 import initializeDatabase from './db.js';
 
 const app = express();
 const port = 3000
 
-app.use(bodyParser.json());
-app.use("/feedback", feedbackRouter);
+app.use(cors())
+app.use(express.json());
+
+app.use((req, res, next) => {
+    console.log(`Received request for ${req.method} ${req.url}`);
+    next();
+});
+
+app.use("/feedbacks", feedbackRouter);
 
 initializeDatabase()
   .then((db) => {
