@@ -2,6 +2,8 @@
     import RecordButton from "./RecordButton.svelte";
     import AudioFile from "./AudioFile.svelte";
     import { fade } from 'svelte/transition';
+    import Button from "./Button.svelte";
+    import submitAndTranscribeFeedback from "./RecordButton.svelte";
 
     let audioFile;
     let extension;
@@ -41,11 +43,14 @@
         transition:fade
         bind:value={textToAnimate}
         placeholder="Type here..."
-        class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-32 border border-gray-150 border-2"
+        class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-32 border-gray-150 border-2"
 />
 <div class="flex flex-row">
     <RecordButton on:recording-change={handleRecordingUpdate}/>
     {#if audioFile}
         <AudioFile url="{audioFile}" extension="{extension}"/>
+        <div class="p-4 flex mx-4">
+            <Button on:click={submitAndTranscribeFeedback}>Transcribe</Button>
+        </div>
     {/if}
 </div>
