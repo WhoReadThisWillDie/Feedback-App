@@ -1,5 +1,21 @@
 import * as feedbackQuery from "../db-query/database-feedback-query.js"
 
+export async function uploadAudio(req, res) {
+    const {file} = req;
+
+    if(!file){
+        return res.status(400).json({ error: "No file uploaded"});
+    }
+
+    const filePath = file.path;
+
+    try{
+        res.status(201).json({ message: 'File uploaded successfully.', filePath });
+    } catch (error){
+        res.status(500).json({ error: 'Failed to upload audio.' });
+    }
+}
+
 export async function getAllFeedbacks(req, res) {
     try {
         const feedbacks = await feedbackQuery.getAllFeedback();

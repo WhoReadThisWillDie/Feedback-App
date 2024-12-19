@@ -22,6 +22,11 @@ export async function getFeedbackById(id) {
     return await db.get("SELECT * FROM feedback WHERE id = ?", [id]);
 }
 
+export async function getAudioById(id) {
+    const db = await getDb();
+    return await db.get("SELECT audio_file_path FROM feedback WHERE id = ?", [id]);
+}
+
 // Insert new feedback
 export async function createFeedback(audioFilePath, transcript) {
     const db = await getDb();
@@ -31,6 +36,7 @@ export async function createFeedback(audioFilePath, transcript) {
     );
     return result.lastID;
 }
+
 
 // Update feedback by ID
 export async function updateFeedback(id, audioFilePath, transcript) {
