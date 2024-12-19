@@ -13,6 +13,7 @@
     let gumStream, recorder, chunks = [];
     let timer = 0;
     let timerInterval;
+    let audioBlob = null;
     const dispatch = createEventDispatcher();
 
     if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
@@ -91,6 +92,7 @@
                     return;
                 }
                 recording = URL.createObjectURL(blob);
+                audioBlob = blob;
                 dispatch('recording-change', { recording, extension });
             };
 
@@ -125,8 +127,33 @@
         //
     }
 
-    function exportToDatabase() {
-        showSuccessBox()
+    async function exportToDatabase() {
+        if(!audioBlob){
+            console.error("No audio available to export.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('audio', audioBlob, `recording.wav`);
+
+        try {
+            const response = await fetch('http://localhost:3000/feedback/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const {filePath} = await response.json();
+                console.log('Uploaded file path: ', filePath);
+                showSuccessBox()
+            } else {
+                console.error('Failed to upload audio file', await response.text());
+            }
+
+        } catch (error) {
+            console.error('Failed to upload audio file', error);
+        }
+
     }
 
     function showSuccessBox() {

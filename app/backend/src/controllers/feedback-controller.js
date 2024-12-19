@@ -1,5 +1,23 @@
 import * as feedbackQuery from "../db-query/database-feedback-query.js"
 
+//Uploads the audio file to the backend
+export async function uploadAudio(req, res) {
+    const {file} = req;
+
+    if(!file){
+        return res.status(400).json({ error: "No file uploaded"});
+    }
+
+    const filePath = file.path;
+
+    try{
+        res.status(201).json({ message: 'File uploaded successfully.', filePath });
+    } catch (error){
+        res.status(500).json({ error: 'Failed to upload audio.' });
+    }
+}
+
+//Returns all the feedbacks
 export async function getAllFeedbacks(req, res) {
     try {
         const feedbacks = await feedbackQuery.getAllFeedback();
@@ -9,6 +27,7 @@ export async function getAllFeedbacks(req, res) {
     }
 }
 
+//Returns a feedback by id
 export async function getFeedbackById(req, res) {
     const {id} = req.params;
     try {
@@ -23,6 +42,7 @@ export async function getFeedbackById(req, res) {
     }
 }
 
+//Adds a new feedback
 export async function addFeedback(req, res) {
     const { audioFilePath, transcript } = req.body;
     if (!audioFilePath || !transcript) {
@@ -37,6 +57,7 @@ export async function addFeedback(req, res) {
     }
 }
 
+//Edit an existing feedback
 export async function editFeedbackById(req, res) {
     const { id } = req.params;
     const { audioFilePath, transcript } = req.body;
@@ -57,6 +78,7 @@ export async function editFeedbackById(req, res) {
     }
 }
 
+//Delete a feedback by id
 export async function deleteFeedbackById(req, res) {
     const { id } = req.params;
 
