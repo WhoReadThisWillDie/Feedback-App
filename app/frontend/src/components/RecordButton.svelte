@@ -134,7 +134,7 @@
         }
 
         const formData = new FormData();
-        formData.append('audio', audioBlob, `recording.${extension}`);
+        formData.append('audio', audioBlob, `recording.wav`);
 
         try {
             const response = await fetch('http://localhost:3000/feedback/upload', {
