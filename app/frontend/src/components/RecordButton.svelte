@@ -116,7 +116,7 @@
         return `${minutes}:${formattedSeconds < 10 ? '0' : ''}${formattedSeconds}`;
     }
 
-    function submitAndTranscribeFeedback(){
+    export function submitAndTranscribeFeedback(){
         isLoading = true
         //FOR SHOW PURPOSE
         setTimeout(() => {
@@ -155,12 +155,12 @@
         <Icon src="{Stop}" solid class="text-textColor size-8"/>
     </Button>
 
-    <div class="p-4">
-        <Button on:click={submitAndTranscribeFeedback}>Submit</Button>
-    </div>
+<!--    <div class="p-4 flex justify-end">-->
+<!--        <Button on:click={submitAndTranscribeFeedback}>Transcribe</Button>-->
+<!--    </div>-->
 
-    <div class="absolute mt-[30vw] left-1/2 transform -translate-x-1/2">
-        <Button on:click={exportToDatabase}>Send</Button>
+    <div class="absolute mt-[10vw] left-1/2 transform -translate-x-1/2">
+        <Button on:click={exportToDatabase}>Submit</Button>
     </div>
     {#if isLoading}
         <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50" transition:fade={{duration: 500}}>
