@@ -1,5 +1,4 @@
 import * as feedbackQuery from "../db-query/database-feedback-query.js"
-import {transcribeAudio} from "../audioTranscription.js";
 
 //Uploads the audio file to the backend
 export async function uploadAudio(req, res) {
@@ -45,18 +44,6 @@ export async function getFeedbackById(req, res) {
 
 //Adds a new feedback
 export async function addFeedback(req, res) {
-    if (req.body.audioFilePath && !req.body.transcript) {
-        try {
-            const result = {
-                transcript: await transcribeAudio(req.body.audioFilePath)
-            }
-            return res.status(200).json(result);
-        } catch (error) {
-            console.log(error)
-            return res.status(500).json({message: error.message})
-        }
-    }
-
     if (req.body.audioFilePath && req.body.transcript) {
         // const queryResult = await feedbackQuery.addFeedback(req.body.audioFilePath, req.body.transcript);
         const queryResult = 1
