@@ -21,7 +21,7 @@ function convertTo16KHzMono(inputFilePath, outputFilePath) {
             .audioFrequency(16000)
             .audioChannels(1)
             .output(outputFilePath)
-            .on('end', () => resolve(outputFilePath))
+            .on('end', resolve)
             .on('error', (err) => reject(err))
             .run()
     })
@@ -63,7 +63,7 @@ function sliceAudio(channelData, sampleRate, chunkLength) {
 export async function transcribeAudio(filePath) {
     let { sampleRate, channelData } = await readWavFile(filePath)
 
-    let tempFilePath = null
+    let tempFilePath = '../backend/samples/temp.wav'
     if (sampleRate !== 16000) {
         await convertTo16KHzMono(filePath, tempFilePath)
 
@@ -82,5 +82,5 @@ export async function transcribeAudio(filePath) {
         if (err) console.error('ERROR: Error deleting temp file:', err)
     })
 
-    return transcriptionResult
+    return transcriptionResult.trim()
 }

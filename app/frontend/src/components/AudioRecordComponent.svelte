@@ -1,29 +1,25 @@
 <script>
+    import {createEventDispatcher} from "svelte";
     import RecordButton from "./RecordButton.svelte";
     import AudioFile from "./AudioFile.svelte";
     import { fade } from 'svelte/transition';
     import Button from "./Button.svelte";
-    import submitAndTranscribeFeedback from "./RecordButton.svelte";
+    import { fetchTranscription } from "../api/fetchTranscription";
 
     let audioFile;
     let extension;
-    // TESTING PURPOSE. In future use this variable to store text that you get from the backend
-    let textFromTranscription = "The birch canoe slid on the smooth planks.\n" +
-        "Glue the sheet to the dark blue background.\n" +
-        "It's easy to tell the depth of a well.\n" +
-        "These days a chicken leg is a rare dish.\n" +
-        "Rice is often served in round bowls.\n" +
-        "The juice of lemons makes fine punch.\n" +
-        "The box was thrown beside the parked truck.\n" +
-        "The hogs were fed chopped corn and garbage.\n" +
-        "Four hours of steady work faced us.\n" +
-        "A large size in stockings is hard to sell.";
-    //
+
+    const dispatch = createEventDispatcher();
+
+    let isLoading = false;
+
+    let transcriptionTextPromise = "";
+
     let textToAnimate = "";
     let currentWordIndex = 0;
     let typeWord = () => {
-        if (currentWordIndex < textFromTranscription.length) {
-            textToAnimate += (currentWordIndex === 0 ? "" : "") + textFromTranscription[currentWordIndex];
+        if (currentWordIndex < transcriptionTextPromise.length) {
+            textToAnimate += (currentWordIndex === 0 ? "" : "") + transcriptionTextPromise[currentWordIndex];
             currentWordIndex++;
             setTimeout(typeWord, 20);
         }
@@ -34,6 +30,19 @@
     function handleRecordingUpdate(event) {
         audioFile = event.detail.recording;
         extension = event.detail.extension;
+    }
+
+    function handleAudioSent(event) {
+        console.log(event.detail)
+    }
+
+    function transcribeAudio() {
+        isLoading = true
+        //FOR SHOW PURPOSE
+        setTimeout(() => {
+            isLoading = false;
+        }, 3000);
+        dispatch('audio-sent', {audioFile, extension})
     }
 </script>
 
@@ -48,9 +57,74 @@
 <div class="flex flex-row">
     <RecordButton on:recording-change={handleRecordingUpdate}/>
     {#if audioFile}
-        <AudioFile url="{audioFile}" extension="{extension}"/>
+        <AudioFile url="{audioFile}"/>
         <div class="p-4 flex mx-4">
-            <Button on:click={submitAndTranscribeFeedback}>Transcribe</Button>
+            <Button on:click={transcribeAudio}>Transcribe</Button>
         </div>
     {/if}
 </div>
+{#if isLoading}
+    <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50" transition:fade={{duration: 500}}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" preserveAspectRatio="xMidYMid"
+             style="shape-rendering:auto;display:block;background:0 0" viewBox="0 0 100 100">
+            <rect width="6" height="12" x="47" y="24" fill="#fa38ff" rx="3" ry="6">
+                <animate attributeName="opacity" begin="-0.9166666666666666s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+            </rect>
+            <rect width="6" height="12" x="47" y="24" fill="#fa38ff" rx="3" ry="6" transform="rotate(30 50 50)">
+                <animate attributeName="opacity" begin="-0.8333333333333334s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+            </rect>
+            <rect width="6" height="12" x="47" y="24" fill="#fa38ff" rx="3" ry="6" transform="rotate(60 50 50)">
+                <animate attributeName="opacity" begin="-0.75s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+            </rect>
+            <rect width="6" height="12" x="47" y="24" fill="#fa38ff" rx="3" ry="6" transform="rotate(90 50 50)">
+                <animate attributeName="opacity" begin="-0.6666666666666666s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+            </rect>
+            <rect width="6" height="12" x="47" y="24" fill="#fa38ff" rx="3" ry="6" transform="rotate(120 50 50)">
+                <animate attributeName="opacity" begin="-0.5833333333333334s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+            </rect>
+            <rect width="6" height="12" x="47" y="24" fill="#fa38ff" rx="3" ry="6" transform="rotate(150 50 50)">
+                <animate attributeName="opacity" begin="-0.5s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+            </rect>
+            <rect width="6" height="12" x="47" y="24" fill="#fa38ff" rx="3" ry="6" transform="rotate(180 50 50)">
+                <animate attributeName="opacity" begin="-0.4166666666666667s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+            </rect>
+            <rect width="6" height="12" x="47" y="24" fill="#fa38ff" rx="3" ry="6" transform="rotate(210 50 50)">
+                <animate attributeName="opacity" begin="-0.3333333333333333s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+            </rect>
+            <rect width="6" height="12" x="47" y="24" fill="#fa38ff" rx="3" ry="6" transform="rotate(240 50 50)">
+                <animate attributeName="opacity" begin="-0.25s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+            </rect>
+            <rect width="6" height="12" x="47" y="24" fill="#fa38ff" rx="3" ry="6" transform="rotate(270 50 50)">
+                <animate attributeName="opacity" begin="-0.16666666666666666s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+            </rect>
+            <rect width="6" height="12" x="47" y="24" fill="#fa38ff" rx="3" ry="6" transform="rotate(300 50 50)"><animate attributeName="opacity" begin="-0.08333333333333333s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+            </rect>
+            <rect width="6" height="12" x="47" y="24" fill="#fa38ff" rx="3" ry="6" transform="rotate(330 50 50)"><animate attributeName="opacity" begin="0s" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0"/>
+            </rect>
+        </svg>
+    </div>
+{/if}
+
+<style>
+    .fixed {
+        transition: opacity 0.5s ease-in-out;
+    }
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+    @keyframes tick {
+        from {
+            transform: scale(0);
+        }
+        to {
+            transform: scale(1);
+        }
+    }
+</style>
