@@ -1,13 +1,14 @@
 import {transcribeAudio} from "../audio-transcription.js";
 
 export async function postTranscription(req, res) {
-    if (!req.body.audioFilePath) {
-        return res.status(400).json({error: "audioFilePath is required."});
+    const {file} = req;
+    if (!file) {
+        return res.status(400).json({error: "No file uploaded"});
     }
 
     try {
         const result = {
-            transcript: await transcribeAudio(req.body.audioFilePath)
+            transcript: await transcribeAudio(file.path)
         }
         return res.status(200).json(result);
     } catch (error) {

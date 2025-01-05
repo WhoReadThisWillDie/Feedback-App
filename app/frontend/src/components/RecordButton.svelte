@@ -2,7 +2,7 @@
     import {createEventDispatcher} from 'svelte';
     import Button from './Button.svelte';
     import {Icon, Pause, Stop, Microphone} from 'svelte-hero-icons';
-    import { fade } from 'svelte/transition';
+    import {fade} from 'svelte/transition';
 
     let recording;
     let extension = 'webm';
@@ -46,12 +46,9 @@
 
             recorder.ondataavailable = (e) => {
                 chunks.push(e.data);
-                console.log('Recorder state:', recorder.state);
                 if (recorder.state === 'inactive') {
-                    const blob = new Blob(chunks, {type: `audio/${extension}`});
-                    recording = URL.createObjectURL(blob);
-                    console.log('Dispatching recording-change with', {recording, extension});
-                    dispatch('recording-change', {recording, extension});
+                    audioBlob = new Blob(chunks, {type: `audio/${extension}`});
+                    dispatch('recording-change', {audioBlob});
                 }
             };
 
@@ -84,15 +81,12 @@
     function stopRecording() {
         if (recorder && recorder.state !== 'inactive') {
             recorder.onstop = () => {
-                const blob = new Blob(chunks, { type: `audio/${extension}` });
-                console.log("Blob size:", blob.size);
-                if (blob.size === 0) {
+                audioBlob = new Blob(chunks, {type: `audio/${extension}`});
+                if (audioBlob.size === 0) {
                     console.error("Blob is empty. Check if recording chunks were captured.");
                     return;
                 }
-                recording = URL.createObjectURL(blob);
-                audioBlob = blob;
-                dispatch('recording-change', { recording, extension });
+                dispatch('recording-change', {audioBlob});
             };
 
             recorder.stop();
@@ -112,7 +106,7 @@
     }
 
     async function exportToDatabase() {
-        if(!audioBlob){
+        if (!audioBlob) {
             console.error("No audio available to export.");
             return;
         }
@@ -127,8 +121,6 @@
             });
 
             if (response.ok) {
-                const {filePath} = await response.json();
-                console.log('Uploaded file path: ', filePath);
                 showSuccessBox()
             } else {
                 console.error('Failed to upload audio file', await response.text());
@@ -137,7 +129,6 @@
         } catch (error) {
             console.error('Failed to upload audio file', error);
         }
-
     }
 
     function showSuccessBox() {
@@ -166,9 +157,9 @@
         <Icon src="{Stop}" solid class="text-textColor size-8"/>
     </Button>
 
-<!--    <div class="p-4 flex justify-end">-->
-<!--        <Button on:click={submitAndTranscribeFeedback}>Transcribe</Button>-->
-<!--    </div>-->
+    <!--    <div class="p-4 flex justify-end">-->
+    <!--        <Button on:click={submitAndTranscribeFeedback}>Transcribe</Button>-->
+    <!--    </div>-->
 
     <div class="absolute mt-[10vw] left-1/2 transform -translate-x-1/2">
         <Button on:click={exportToDatabase}>Submit</Button>
@@ -186,7 +177,7 @@
                         viewBox="0 0 24 24"
                         fill="currentColor"
                 >
-                    <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7 19.6 5.6z" />
+                    <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7 19.6 5.6z"/>
                 </svg>
             </div>
         </div>

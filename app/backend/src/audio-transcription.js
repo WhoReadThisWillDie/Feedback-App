@@ -1,6 +1,6 @@
-import { pipeline } from '@huggingface/transformers'
+import {pipeline} from '@huggingface/transformers'
 import fs from 'fs'
-import { decode } from 'wav-decoder'
+import {decode} from 'wav-decoder'
 import ffmpeg from 'fluent-ffmpeg'
 
 // Download the Whisper model (if not already downloaded)
@@ -35,7 +35,7 @@ function convertTo16KHzMono(inputFilePath, outputFilePath) {
 async function readWavFile(filePath) {
     const buffer = fs.readFileSync(filePath)
     const decodedWav = await decode(buffer)
-    return { sampleRate: decodedWav.sampleRate, channelData: decodedWav.channelData[0] }
+    return {sampleRate: decodedWav.sampleRate, channelData: decodedWav.channelData[0]}
 }
 
 /**
@@ -61,18 +61,11 @@ function sliceAudio(channelData, sampleRate, chunkLength) {
  * @returns {Promise<string>} Promise with the transcribed text
  */
 export async function transcribeAudio(filePath) {
-    let {sampleRate, channelData} = await readWavFile(filePath)
+    const tempFilePath = './recordings/converted.wav'
+    await convertTo16KHzMono(filePath, tempFilePath)
 
-    let tempFilePath = '../backend/samples/converted.wav'
-    let isConverted = false
-    if (sampleRate !== 16000) {
-        await convertTo16KHzMono(filePath, tempFilePath)
-        isConverted = true
-
-        // update decoded data if the file was converted
-        const decodedData = await readWavFile(tempFilePath)
-        channelData = decodedData.channelData
-    }
+    const decodedData = await readWavFile(tempFilePath)
+    const channelData = decodedData.channelData
 
     let transcriptionResult = ''
     for (const chunk of sliceAudio(channelData, 16000, 30)) {
@@ -80,11 +73,12 @@ export async function transcribeAudio(filePath) {
         transcriptionResult += result.text
     }
 
-    if (isConverted) {
-        fs.unlink(tempFilePath, (err) => {
-            if (err) console.error('ERROR: Error deleting temp file:', err)
-        })
-    }
+    fs.unlink(filePath, (err) => {
+        if (err) console.error('ERROR: Error deleting temp file:', err)
+    })
+    fs.unlink(tempFilePath, (err) => {
+        if (err) console.error('ERROR: Error deleting converted temp file:', err)
+    })
 
     return transcriptionResult.trim()
 }

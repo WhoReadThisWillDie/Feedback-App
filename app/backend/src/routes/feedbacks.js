@@ -1,16 +1,8 @@
 import express from 'express';
-import multer from 'multer';
 import * as feedbackController from '../controllers/feedback-controller.js'
+import {upload} from "../middleware/multer.js";
 
 const router = express.Router();
-
-//Directory to save recordings
-const storage = multer.diskStorage({
-    destination: './recordings/',
-    filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`),
-});
-
-const upload = multer({storage});
 
 router.get("/", feedbackController.getAllFeedbacks);
 

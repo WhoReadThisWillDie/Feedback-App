@@ -1,5 +1,4 @@
 <script>
-    import {createEventDispatcher} from "svelte";
     import RecordButton from "./RecordButton.svelte";
     import AudioFile from "./AudioFile.svelte";
     import { fade } from 'svelte/transition';
@@ -7,42 +6,39 @@
     import { fetchTranscription } from "../api/fetchTranscription";
 
     let audioFile;
-    let extension;
-
-    const dispatch = createEventDispatcher();
+    let blob;
 
     let isLoading = false;
 
     let transcriptionTextPromise = "";
-
-    let textToAnimate = "";
+    let text = "";
     let currentWordIndex = 0;
-    let typeWord = () => {
+    let typeWords = () => {
         if (currentWordIndex < transcriptionTextPromise.length) {
-            textToAnimate += (currentWordIndex === 0 ? "" : "") + transcriptionTextPromise[currentWordIndex];
+            text += transcriptionTextPromise[currentWordIndex];
             currentWordIndex++;
-            setTimeout(typeWord, 20);
+            setTimeout(typeWords, 20);
         }
     };
-    typeWord();
 
     // Update recording explicitly when a new file is recorded
     function handleRecordingUpdate(event) {
-        audioFile = event.detail.recording;
-        extension = event.detail.extension;
+        blob = event.detail.audioBlob;
+        audioFile = URL.createObjectURL(blob);
     }
 
-    function handleAudioSent(event) {
-        console.log(event.detail)
-    }
-
-    function transcribeAudio() {
+    async function transcribeAudio() {
         isLoading = true
         //FOR SHOW PURPOSE
         setTimeout(() => {
             isLoading = false;
         }, 3000);
-        dispatch('audio-sent', {audioFile, extension})
+
+        transcriptionTextPromise = await fetchTranscription(blob)
+        console.log(transcriptionTextPromise)
+        text = ""
+        currentWordIndex = 0
+        typeWords()
     }
 </script>
 
@@ -50,7 +46,7 @@
 <h2 class="font-medium text-textColor">Feedback</h2>
 <textarea
         transition:fade
-        bind:value={textToAnimate}
+        bind:value={text}
         placeholder="Type here..."
         class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-32 border-gray-150 border-2"
 />
