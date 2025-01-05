@@ -1,6 +1,6 @@
-import {pipeline} from '@huggingface/transformers'
+import { pipeline } from '@huggingface/transformers'
 import fs from 'fs'
-import {decode} from 'wav-decoder'
+import { decode } from 'wav-decoder'
 import ffmpeg from 'fluent-ffmpeg'
 
 // Download the Whisper model (if not already downloaded)
@@ -21,7 +21,7 @@ function convertTo16KHzMono(inputFilePath, outputFilePath) {
             .audioFrequency(16000)
             .audioChannels(1)
             .output(outputFilePath)
-            .on('end', resolve)
+            .on('end', () => resolve(outputFilePath))
             .on('error', (err) => reject(err))
             .run()
     })
@@ -35,7 +35,7 @@ function convertTo16KHzMono(inputFilePath, outputFilePath) {
 async function readWavFile(filePath) {
     const buffer = fs.readFileSync(filePath)
     const decodedWav = await decode(buffer)
-    return {sampleRate: decodedWav.sampleRate, channelData: decodedWav.channelData[0]}
+    return { sampleRate: decodedWav.sampleRate, channelData: decodedWav.channelData[0] }
 }
 
 /**
