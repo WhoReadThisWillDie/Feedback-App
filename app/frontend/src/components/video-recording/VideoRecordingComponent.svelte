@@ -35,17 +35,17 @@
     }
 </script>
 
-
-<h2 class="font-medium text-textColor">Feedback</h2>
-<textarea
-        transition:fade
-        bind:value={textToAnimate}
-        placeholder="Type here..."
-        class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-32 border border-gray-150 border-2"
-/>
-<div class="flex flex-row">
-    <VideoRecordButton on:recording-change={handleRecordingUpdate}/>
-    {#if audioFile}
-        <AudioFile url="{audioFile}" extension="{extension}"/>
-    {/if}
+<div class="flex flex-row h-auto gap-4">
+    <VideoRecordButton on:recording-change={handleRecordingUpdate} />
+    <div class="flex-1">
+        <h2 class="font-medium text-textColor">Feedback</h2>
+        <textarea
+                transition:fade
+                bind:value={textToAnimate}
+                placeholder="Type here..."
+                class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-32 border-gray-150 border-2"
+        />
+    </div>
 </div>
+
+
