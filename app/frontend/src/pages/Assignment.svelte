@@ -1,5 +1,6 @@
 <script>
   import AudioRecordComponent from "../components/AudioRecordComponent.svelte";
+  import VideoRecordingComponent from "../components/video-recording/VideoRecordingComponent.svelte";
 
   export let params;
 
@@ -21,6 +22,6 @@
 
 <div class="flex flex-col items-center justify-center">
   <div class="flex flex-col gap-4 w-2/3 max-w-3xl">
-    <AudioRecordComponent />
+    <VideoRecordingComponent />
   </div>
 </div>
