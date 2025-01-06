@@ -302,14 +302,39 @@ The performance of the system is determined by its ability to efficiently handle
 
 ---
 
-## TIMESTAMP vs DATE/DATETIME
+#### TIMESTAMP vs DATE/DATETIME
 
 As Scorion is used globally, **TIMESTAMP** is a better choice because it automatically adjusts for time zones. It stores the value in UTC and converts it to the local time (according to the machine accessing it) when queried.
 
 
-### User Interface Design
+## User Interface Design
 
-### Hardware Design
+The purpose of the user interface, is to record audio feedback and to view a transcription of said audio feedback. The user should also be able to edit the text after it appears as the transcribed audio file.
+
+### Visual design
+
+**Colors**: Scorion provided us with their style guide, which contained the colors they commonly use in their Scorion platform:
+![Scorions color palette](resources/ScorionColorPalette.png)
+
+- ![Background color](resources/BackgroundColor.png) The color used for the background.
+- ![Font color](./resources/FontColor.png) The color used for any text (outside from buttons).
+
+**Fonts**: The specified font to use in the style guide is Roboto.
+
+### Design
+The client wants us to design a feedback form, which has a text field, a recording function and a transcribing function. From what we've seen of the client's platform, we designed the following mockups for how the user would interact with the platform to record their audio:
+
+**Screen 1**: This is the first state of the component. An empty text form, with some buttons in the bottom. When the first button is pressed (the button with the microphone icon) the application starts recording the user's audio from their microphone. And we go to screen 2.
+![User interface screen 1](./resources/Frame1.png)
+
+**Screen 2**: The first button's icon changes to a pause icon. The user can now either click on the pause button, which pauses the recording (which also changes the icon back to the microphone icon), and click it again to resume recording. Or the stop button (the second button), which stops recording and creates an audio file component (screen 3).
+![User interface screen 2](./resources/Frame2.png)
+
+**Screen 3**: When the stop button is pressed, an audio file gets displayed and can be played. When clicking the transcript button, the audio file gets send to the back end to be transcribed, when the file is transcribed we get to screen 4.
+![User interface screen 3](./resources/Frame3.png)
+
+**Screen 4**: The transcribed text appears in the text box. When the submit button is clicked, the feedback (audio file and transcription) is sent to the backend to be saved in the database.
+![User interface screen 4](./resources/Frame4.png)
 
 ### Software Design
 
