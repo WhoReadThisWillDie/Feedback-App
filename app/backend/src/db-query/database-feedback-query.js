@@ -28,7 +28,7 @@ export async function getAudioById(id) {
 }
 
 // Insert new feedback
-export async function createFeedback(audioFilePath, transcript) {
+export async function addFeedback(audioFilePath, transcript) {
     const db = await getDb();
     const result = await db.run(
         "INSERT INTO feedback (audio_file_path, transcript) VALUES (?, ?)",

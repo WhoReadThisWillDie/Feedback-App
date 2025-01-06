@@ -44,15 +44,18 @@ export async function getFeedbackById(req, res) {
 //Adds a new feedback
 export async function addFeedback(req, res) {
     if (req.body.audioFilePath && req.body.transcript) {
-        // const queryResult = await feedbackQuery.addFeedback(req.body.audioFilePath, req.body.transcript);
-        const queryResult = 1
+        const queryResult = await feedbackQuery.addFeedback(req.body.audioFilePath, req.body.transcript);
+        // const queryResult = 1
         if (queryResult) {
+            console.log("It worked!");
             return res.status(201).json({message: "Feedback added successfully."});
         }
 
+        console.log("It didn't work.")
         return res.status(500).json({error: "Failed to add feedback."})
     }
 
+    console.log("It really screwed up.");
     res.status(400).json({error: "audioFilePath and transcript are required."});
 }
 
