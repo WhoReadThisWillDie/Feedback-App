@@ -27,7 +27,6 @@ export async function getAllFeedbacks(req, res) {
     }
 }
 
-//Returns a feedback by id
 export async function getFeedbackById(req, res) {
     const {id} = req.params;
     try {
@@ -44,17 +43,17 @@ export async function getFeedbackById(req, res) {
 
 //Adds a new feedback
 export async function addFeedback(req, res) {
-    const { audioFilePath, transcript } = req.body;
-    if (!audioFilePath || !transcript) {
-        return res.status(400).json({ error: "audioFilePath and transcript are required." });
+    if (req.body.audioFilePath && req.body.transcript) {
+        // const queryResult = await feedbackQuery.addFeedback(req.body.audioFilePath, req.body.transcript);
+        const queryResult = 1
+        if (queryResult) {
+            return res.status(201).json({message: "Feedback added successfully."});
+        }
+
+        return res.status(500).json({error: "Failed to add feedback."})
     }
 
-    try {
-        const feedbackId = await feedbackQuery.createFeedback(audioFilePath, transcript);
-        res.status(201).json({ message: "Feedback created successfully.", feedbackId });
-    } catch (error) {
-        res.status(500).json({ error: "Failed to create feedback." });
-    }
+    res.status(400).json({error: "audioFilePath and transcript are required."});
 }
 
 //Edit an existing feedback

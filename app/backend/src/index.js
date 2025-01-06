@@ -1,14 +1,22 @@
 import express from 'express';
-import cors from 'cors'
+import cors from 'cors';
 import feedbackRouter from './routes/feedbacks.js';
+import transcriptionRouter from './routes/transcriptions.js';
 import initializeDatabase from './db.js';
 
 const app = express();
 const port = 3000
 
-app.use(express.json());
 app.use(cors())
-app.use("/feedback", feedbackRouter);
+app.use(express.json());
+
+app.use((req, res, next) => {
+    console.log(`Received request for ${req.method} ${req.url}`);
+    next();
+});
+
+app.use("/feedbacks", feedbackRouter);
+app.use("/transcriptions", transcriptionRouter);
 
 initializeDatabase()
   .then((db) => {

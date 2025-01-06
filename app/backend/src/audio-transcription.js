@@ -1,6 +1,6 @@
-import { pipeline } from '@huggingface/transformers'
+import {pipeline} from '@huggingface/transformers'
 import fs from 'fs'
-import { decode } from 'wav-decoder'
+import {decode} from 'wav-decoder'
 import ffmpeg from 'fluent-ffmpeg'
 
 // Download the Whisper model (if not already downloaded)
@@ -35,7 +35,7 @@ function convertTo16KHzMono(inputFilePath, outputFilePath) {
 async function readWavFile(filePath) {
     const buffer = fs.readFileSync(filePath)
     const decodedWav = await decode(buffer)
-    return { sampleRate: decodedWav.sampleRate, channelData: decodedWav.channelData[0] }
+    return {sampleRate: decodedWav.sampleRate, channelData: decodedWav.channelData[0]}
 }
 
 /**
@@ -61,39 +61,24 @@ function sliceAudio(channelData, sampleRate, chunkLength) {
  * @returns {Promise<string>} Promise with the transcribed text
  */
 export async function transcribeAudio(filePath) {
-    let sampleRate, channelData;
-    let processedFilePath = filePath
+    const tempFilePath = './recordings/converted.wav'
+    await convertTo16KHzMono(filePath, tempFilePath)
 
-    try {
-        ({ sampleRate, channelData } = await readWavFile(filePath));
-        console.log(`Sample rate compatible: ${sampleRate}`)
-    } catch (err) {
-        console.log('Incompatible wav file, attempting to convert.')
-        const tempFilePath = '../recordings/converted_temp.wav';
-        processedFilePath = await convertTo16KHzMono(filePath, tempFilePath);
+    const decodedData = await readWavFile(tempFilePath)
+    const channelData = decodedData.channelData
 
-        ({sampleRate, channelData} = await readWavFile(processedFilePath));
-    }
-
-    if(sampleRate !== 16000){
-        console.log('Incompatible sample rate, attempting to convert.')
-        const tempFilePath = '../recordings/converted_temp.wav';
-        processedFilePath = await convertTo16KHzMono(filePath, tempFilePath);
-
-        ({channelData} = await readWavFile(processedFilePath));
-    }
-
-    let transcriptionResult = "";
+    let transcriptionResult = ''
     for (const chunk of sliceAudio(channelData, 16000, 30)) {
-        const result = await model(chunk);
-        transcriptionResult += result.text;
+        const result = await model(chunk)
+        transcriptionResult += result.text
     }
 
-    if (processedFilePath !== filePath) {
-        fs.unlink(processedFilePath, (err) => {
-            if (err) console.error('ERROR: Error deleting temp file:', err);
-        });
-    }
+    fs.unlink(filePath, (err) => {
+        if (err) console.error('ERROR: Error deleting temp file:', err)
+    })
+    fs.unlink(tempFilePath, (err) => {
+        if (err) console.error('ERROR: Error deleting converted temp file:', err)
+    })
 
-    return transcriptionResult;
+    return transcriptionResult.trim()
 }
