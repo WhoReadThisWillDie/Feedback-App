@@ -23,6 +23,3 @@
     <svelte:component this={pageComponent} {params} />
   </main>
 </div>
-
-<style>
-</style>

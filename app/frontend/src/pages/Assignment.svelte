@@ -1,26 +1,9 @@
 <script>
-  import AudioRecordComponent from "../components/AudioRecordComponent.svelte";
-
-  export let params;
-
-  let assignment;
-  const fetchAssignment = async () => {
-    // Do something
-    assignment = {
-      title: `Assignment ${params.id} (from server)`,
-      description: "This is the assignment...",
-    };
-  };
-  fetchAssignment();
-
-  export const audioTracks = [
-    { url: 'https://sveltejs.github.io/assets/music/strauss.mp3', feedbackGiver: 'Eelco' },
-  ];
-
+  import FormComponent from "../components/FormComponent.svelte";
 </script>
 
 <div class="flex flex-col items-center justify-center">
-  <div class="flex flex-col gap-4 w-2/3 max-w-3xl">
-    <AudioRecordComponent />
+  <div class="flex flex-col gap-4 w-2/3">
+    <FormComponent/>
   </div>
 </div>
