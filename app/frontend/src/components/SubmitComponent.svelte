@@ -5,9 +5,11 @@
 
     let showSuccess = false;
     export let audioBlob;
+    export let text;
 
     async function exportToDatabase() { // TO BE CHANGED BY DATABASE BOSS TO ACCEPT FEEDBACK WITHOUT AUDIO
         const formData = new FormData();
+        console.log(text)
 
         try {
             formData.append('audio', audioBlob, `recording.wav`);
@@ -27,7 +29,7 @@
     }
 </script>
 
-<div class="absolute pt-[10vw] left-1/2 transform -translate-x-1/2">
+<div class="absolute pt-[18vw] left-1/2 transform -translate-x-1/2">
     <Button on:click={exportToDatabase}>Submit</Button>
 </div>
 

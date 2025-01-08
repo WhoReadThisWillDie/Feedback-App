@@ -117,5 +117,4 @@
     >
         <Icon src="{Stop}" solid class="text-textColor size-8"/>
     </Button>
-    <SubmitButton audioBlob={audioBlob}/>
 </div>
