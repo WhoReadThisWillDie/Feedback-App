@@ -4,6 +4,7 @@
     import { fade } from 'svelte/transition';
     import Button from "./Button.svelte";
     import { fetchTranscription } from "../api/fetchTranscription";
+    import { transcriptionText } from "../stores/transcriptionStore.js";
 
     let audioFile;
     let blob;
@@ -36,10 +37,18 @@
 
         transcriptionTextPromise = await fetchTranscription(blob)
         console.log(transcriptionTextPromise)
+
+        transcriptionText.set(transcriptionTextPromise);
+
         text = ""
         currentWordIndex = 0
         typeWords()
     }
+
+    function handleManualTyping(event) {
+        transcriptionText.set(event.target.value);
+    }
+
 </script>
 
 
@@ -47,6 +56,7 @@
 <textarea
         transition:fade
         bind:value={text}
+        on:input={handleManualTyping}
         placeholder="Type here..."
         class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-32 border-gray-150 border-2"
 />

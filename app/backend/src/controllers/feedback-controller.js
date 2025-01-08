@@ -1,17 +1,22 @@
 import * as feedbackQuery from "../db-query/database-feedback-query.js"
+import path from "path";
 
 //Uploads the audio file to the backend
 export async function uploadAudio(req, res) {
-    const {file} = req;
+    const {file, body} = req;
 
-    if(!file){
-        return res.status(400).json({ error: "No file uploaded"});
+    if(!file && !body.transcript){
+        return res.status(400).json({ error: "No file or transcript uploaded"});
     }
 
-    const filePath = file.path;
+    // This can either be absolute or not. I think it's best to not be absolute, but might as well ask the team.
+    const filePath = file ? path.resolve(file.path) : null;
+    const transcript = body.transcript || null;
+
 
     try{
-        res.status(201).json({ message: 'File uploaded successfully.', filePath });
+        const feedbackId = await feedbackQuery.insertFeedback(filePath, transcript);
+        res.status(201).json({ message: 'File uploaded and saved to database', id: feedbackId });
     } catch (error){
         res.status(500).json({ error: 'Failed to upload audio.' });
     }

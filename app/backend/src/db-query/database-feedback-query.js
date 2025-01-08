@@ -28,15 +28,25 @@ export async function getAudioById(id) {
 }
 
 // Insert new feedback
-export async function addFeedback(audioFilePath, transcript) {
+// export async function addFeedback(audioFilePath, transcript) {
+//     const db = await getDb();
+//     const result = await db.run(
+//         "INSERT INTO feedback (audio_file_path, transcript) VALUES (?, ?)",
+//         [audioFilePath, transcript]
+//     );
+//     return result.lastID;
+// }
+
+export async function insertFeedback(audioFilePath, transcript) {
     const db = await getDb();
+    console.log(audioFilePath);
+    console.log(transcript);
     const result = await db.run(
         "INSERT INTO feedback (audio_file_path, transcript) VALUES (?, ?)",
-        [audioFilePath, transcript]
+        [audioFilePath || null, transcript || null],
     );
     return result.lastID;
 }
-
 
 // Update feedback by ID
 export async function updateFeedback(id, audioFilePath, transcript) {
