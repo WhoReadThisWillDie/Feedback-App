@@ -5,6 +5,7 @@
     import Button from "./Button.svelte";
     import { fetchTranscription } from "../api/fetchTranscription";
     import LoadingAnimation from "./animations/LoadingAnimation.svelte";
+    import SubmitButton from "./SubmitComponent.svelte";
 
     let audioFile;
     let blob;
@@ -30,12 +31,14 @@
     async function transcribeAudio() {
         isLoading = true
         transcriptionTextPromise = await fetchTranscription(blob)
-        console.log(transcriptionTextPromise)
         isLoading = false;
         text = text + " ";
         currentWordIndex = 0
         typeWords()
     }
+
+
+
 </script>
 
 <h2 class="font-medium text-textColor">Feedback</h2>
@@ -54,6 +57,7 @@
         </div>
     {/if}
 </div>
+<SubmitButton audioBlob={blob} text={text}/>
 
 {#if isLoading}
     <LoadingAnimation/>

@@ -5,9 +5,26 @@
 
     let showSuccess = false;
     export let audioBlob;
+    export let text;
 
-    async function exportToDatabase() { // TO BE CHANGED BY DATABASE BOSS TO ACCEPT FEEDBACK WITHOUT AUDIO
+    async function exportToDatabase() {
+
+        if(!audioBlob && !text){
+            alert("No audio or text/transcription available.")
+        }
+
         const formData = new FormData();
+
+        if (audioBlob){
+            formData.append('audio', audioBlob, `recording.wav`);
+        }
+
+        if(text){
+            formData.append('transcript', text);
+        }
+
+
+        console.log(text)
 
         try {
             formData.append('audio', audioBlob, `recording.wav`);
@@ -27,7 +44,7 @@
     }
 </script>
 
-<div class="absolute pt-[120px] left-1/2 transform -translate-x-1/2">
+<div class="absolute pt-[18vw] left-1/2 transform -translate-x-1/2">
     <Button on:click={exportToDatabase}>Submit</Button>
 </div>
 
