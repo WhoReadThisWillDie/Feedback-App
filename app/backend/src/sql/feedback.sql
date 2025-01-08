@@ -1,7 +1,7 @@
 CREATE TABLE feedback (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    audio_file_path TEXT NOT NULL,
-    transcript TEXT NOT NULL,
+    audio_file_path TEXT,
+    transcript TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
