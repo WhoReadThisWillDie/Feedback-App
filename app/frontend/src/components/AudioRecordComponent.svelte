@@ -38,7 +38,7 @@
         transcriptionTextPromise = await fetchTranscription(blob)
         console.log(transcriptionTextPromise)
 
-        transcriptionText.set(transcriptionTextPromise);
+        transcriptionText.set(text);
 
         text = ""
         currentWordIndex = 0
