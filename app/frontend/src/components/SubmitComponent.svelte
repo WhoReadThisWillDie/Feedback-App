@@ -23,7 +23,6 @@
             formData.append('transcript', text);
         }
 
-
         console.log(text)
 
         try {
@@ -44,7 +43,7 @@
     }
 </script>
 
-<div class="absolute pt-[18vw] left-1/2 transform -translate-x-1/2">
+<div class="absolute pt-[120px] left-1/2 transform -translate-x-1/2">
     <Button on:click={exportToDatabase}>Submit</Button>
 </div>
 
