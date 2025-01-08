@@ -3,7 +3,6 @@
     import Button from './Button.svelte';
     import {Icon, Pause, Stop, Microphone} from 'svelte-hero-icons';
     import {fade} from 'svelte/transition';
-    import { transcriptionText } from "../stores/transcriptionStore.js";
 
     let recording;
     let extension = 'webm';
@@ -14,10 +13,8 @@
     let timer = 0;
     let timerInterval;
     let audioBlob = null;
-    let transcription = "";
 
     const dispatch = createEventDispatcher();
-    $: transcription = $transcriptionText;
 
     if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
         extension = 'webm';
@@ -110,20 +107,12 @@
     }
 
     async function exportToDatabase() {
-        if (!audioBlob && !transcription) {
-            console.error("No audio or transcription available to export.");
+        if (!audioBlob) {
+            console.error("No audio available to export.");
             return;
         }
 
         const formData = new FormData();
-
-        if (audioBlob){
-            formData.append('audio', audioBlob, `recording.wav`);
-        }
-
-        if(transcription){
-            formData.append('transcript', transcription);
-        }
 
         try {
             const response = await fetch('http://localhost:3000/feedbacks', {
@@ -134,11 +123,11 @@
             if (response.ok) {
                 showSuccessBox()
             } else {
-                console.error('Failed to upload audio file and transcription', await response.text());
+                console.error('Failed to upload audio file', await response.text());
             }
 
         } catch (error) {
-            console.error('Failed to upload audio file and transcription', error);
+            console.error('Failed to upload audio file', error);
         }
     }
 
