@@ -7,8 +7,23 @@
     export let audioBlob;
     export let text;
 
-    async function exportToDatabase() { // TO BE CHANGED BY DATABASE BOSS TO ACCEPT FEEDBACK WITHOUT AUDIO
+    async function exportToDatabase() {
+
+        if(!audioBlob && !text){
+            alert("No audio or text/transcription available.")
+        }
+
         const formData = new FormData();
+
+        if (audioBlob){
+            formData.append('audio', audioBlob, `recording.wav`);
+        }
+
+        if(text){
+            formData.append('transcript', text);
+        }
+
+
         console.log(text)
 
         try {

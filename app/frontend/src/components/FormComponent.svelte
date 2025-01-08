@@ -36,6 +36,9 @@
         currentWordIndex = 0
         typeWords()
     }
+
+
+
 </script>
 
 <h2 class="font-medium text-textColor">Feedback</h2>
