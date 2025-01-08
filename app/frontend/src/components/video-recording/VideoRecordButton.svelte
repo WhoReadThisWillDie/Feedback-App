@@ -12,7 +12,7 @@
 
     async function startCamera() {
         try {
-            videoStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            videoStream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
             const videoElement = document.querySelector('#camera');
             if (videoElement) {
                 videoElement.srcObject = videoStream;
@@ -40,7 +40,7 @@
     function startRecording() {
         if (videoStream && videoStream.getVideoTracks().length > 0) {
             recordedChunks = [];
-            mediaRecorder = new MediaRecorder(videoStream, { mimeType });
+            mediaRecorder = new MediaRecorder(videoStream, {mimeType});
 
             mediaRecorder.ondataavailable = (event) => {
                 if (event.data.size > 0) {
@@ -49,7 +49,7 @@
             };
 
             mediaRecorder.onstop = () => {
-                const blob = new Blob(recordedChunks, { type: mimeType });
+                const blob = new Blob(recordedChunks, {type: mimeType});
                 recordedVideoUrl = URL.createObjectURL(blob);
                 console.log('Recorded video URL:', recordedVideoUrl);
             };
@@ -85,22 +85,30 @@
             tracks.forEach(track => track.stop());
         }
     });
+
+    function transcribeVideo() {
+
+    }
+
 </script>
 
 <div class="flex flex-col align-center w-full max-w-56 m-2">
     {#if recordedVideoUrl}
-        <video src={recordedVideoUrl} controls autoplay class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
+        <video src={recordedVideoUrl} controls autoplay
+               class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
         <div class="my-4">
             <Button on:click={resetRecording}>Record Again</Button>
         </div>
     {:else}
         <video id="camera" autoplay muted class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
-        <div class="my-4">
+        <div class="my-4 flex flex-row w-full">
             {#if !isRecording}
                 <Button on:click={startRecording}>Start Recording</Button>
             {:else}
                 <Button on:click={stopRecording}>Stop Recording</Button>
             {/if}
+            <Button on:click={transcribeVideo}>Transcribe video</Button>
+
         </div>
     {/if}
 </div>
