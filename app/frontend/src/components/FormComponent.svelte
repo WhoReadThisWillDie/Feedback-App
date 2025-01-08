@@ -32,7 +32,7 @@
         transcriptionTextPromise = await fetchTranscription(blob)
         console.log(transcriptionTextPromise)
         isLoading = false;
-        text = ""
+        text = text + " ";
         currentWordIndex = 0
         typeWords()
     }
