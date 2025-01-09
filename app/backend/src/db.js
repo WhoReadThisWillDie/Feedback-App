@@ -4,11 +4,13 @@ import { open } from "sqlite";
 import sqlite3 from "sqlite3";
 import { fileURLToPath } from "url";
 
-const dbFile = "./database.sqlite";
-
 // Helper variables for SQL directory
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const dbFile = path.join(__dirname, "./database.sqlite");
+
+
 
 async function initializeDatabase() {
   // Check if the database file exists
@@ -33,8 +35,10 @@ async function initializeDatabase() {
     await executeSQLFromFile(path.join(sqlDirectory, "feedback.sql"));
 
     console.log("Database created successfully.");
+    console.log("Using database file:", dbFile);
   } else {
     console.log("Database already exists.");
+    console.log("Using database file:", dbFile);
   }
 
   return db;

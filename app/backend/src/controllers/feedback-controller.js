@@ -1,17 +1,22 @@
 import * as feedbackQuery from "../db-query/database-feedback-query.js"
+import path from "path";
 
 //Uploads the audio file to the backend
 export async function uploadAudio(req, res) {
-    const {file} = req;
+    const {file, body} = req;
 
-    if(!file){
-        return res.status(400).json({ error: "No file uploaded"});
+    if(!file && !body.transcript){
+        return res.status(400).json({ error: "No file or transcript uploaded"});
     }
 
-    const filePath = file.path;
+    // This can either be absolute or not. I think it's best to not be absolute, but might as well ask the team.
+    const filePath = file ? path.resolve(file.path) : null;
+    const transcript = body.transcript || null;
+
 
     try{
-        res.status(201).json({ message: 'File uploaded successfully.', filePath });
+        const feedbackId = await feedbackQuery.insertFeedback(filePath, transcript);
+        res.status(201).json({ message: 'File uploaded and saved to database', id: feedbackId });
     } catch (error){
         res.status(500).json({ error: 'Failed to upload audio.' });
     }
@@ -27,7 +32,6 @@ export async function getAllFeedbacks(req, res) {
     }
 }
 
-//Returns a feedback by id
 export async function getFeedbackById(req, res) {
     const {id} = req.params;
     try {
@@ -44,17 +48,20 @@ export async function getFeedbackById(req, res) {
 
 //Adds a new feedback
 export async function addFeedback(req, res) {
-    const { audioFilePath, transcript } = req.body;
-    if (!audioFilePath || !transcript) {
-        return res.status(400).json({ error: "audioFilePath and transcript are required." });
+    if (req.body.audioFilePath && req.body.transcript) {
+        const queryResult = await feedbackQuery.addFeedback(req.body.audioFilePath, req.body.transcript);
+        // const queryResult = 1
+        if (queryResult) {
+            console.log("It worked!");
+            return res.status(201).json({message: "Feedback added successfully."});
+        }
+
+        console.log("It didn't work.")
+        return res.status(500).json({error: "Failed to add feedback."})
     }
 
-    try {
-        const feedbackId = await feedbackQuery.createFeedback(audioFilePath, transcript);
-        res.status(201).json({ message: "Feedback created successfully.", feedbackId });
-    } catch (error) {
-        res.status(500).json({ error: "Failed to create feedback." });
-    }
+    console.log("It really screwed up.");
+    res.status(400).json({error: "audioFilePath and transcript are required."});
 }
 
 //Edit an existing feedback
