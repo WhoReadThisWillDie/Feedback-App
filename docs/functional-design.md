@@ -74,20 +74,20 @@ The vision is to enhance the existing platform by enabling users to record voice
 ### Scope
 **The project includes:**
 
-- Frontend Integration: Adding a UI component for audio recording.
+- Frontend Integration: Adding a UI component for audio recording, text input and audio file.
 - Backend Processing: Storing the audio file and using a transcription service to convert audio to text.
-- Output Management: Displaying the transcribed text for user verification and saving both text feedback.
+- Output Management: Displaying the transcribed text for user verification and saving both text and audio feedback.
 - Optional: Explore video feedback integration if feasible within the timeline.
 
 ### Requirements (Non-Functional)
-| Type        | Requirement                                                                                                              | Priority | Source  |  
-|-------------|--------------------------------------------------------------------------------------------------------------------------|----------|---------|  
-| Availability | As a user I want to be able to provide a feedback without dependending on my device OS.                                  | Must     | Client  |  
-| Performance | As a user I want the transcription to go smoothly without service being frozen.                                          | Should   | Client  |  
-| Robustness  | As a user I want a reliability of the service when the transcription is going, so no data will be lost.                  | Must     | Client  |  
-| Security    | As a user I want my data to be secured so third party APIs won’t  access it.                                             | Should   | Client  |  
-| UX          | As a user I want service to be smooth and designed appropriately to the design standards of the already existing service | Should   | Client  |  
-| Usability   | As a user I want service to be intuitively understandable with all the functionality displayed.                          | Should   | Client  |  
+| Type         | Requirement                                                                                                                   | Priority | Source  |  
+|--------------|-------------------------------------------------------------------------------------------------------------------------------|----------|---------|  
+| Availability | As a user I want to be able to provide a feedback without dependence on my device OS.                                       | Must     | Client  |  
+| Performance  | As a user I want the transcription to go smoothly without service being frozen.                                               | Should   | Client  |  
+| Robustness   | As a user I want a reliability of the service when the transcription is going, so no data will be lost.                       | Must     | Client  |  
+| Security     | As a user I want my data to be secured so third party APIs won’t  access it.                                                  | Should   | Client  |  
+| UX           | As a user I want service to be smooth and designed appropriately to the design standards of the already existing style guide. | Should   | Client  |  
+| Usability    | As a user I want service to be intuitively understandable with all the functionality displayed.                               | Should   | Client  |   |          |         |
 
 ### Risks and Assumptions
 
@@ -124,13 +124,13 @@ The vision is to enhance the existing platform by enabling users to record voice
 
 ### Mockups and Wireframes (Low-Fidelity)
 1. **Assignment List View:** When entering the application the user should be able to see a list of finished assignments which are expecting feedback.
-    ![First screen](/docs/resources/Screen1.png)
+    ![First screen](../docs/resources/Screen1.png)
 2. **Recording Interface:** The user should be able to choose an assignment, then, by choosing  the option “Record sound clip as feedback”  they are going to be able to access the functionality we will be providing.
-    ![Second screen](/docs/resources/Screen2.png)
+    ![Second screen](../docs/resources/Screen2.png)
 3. **Playback and Edit:** Furthermore, the user should press the “record” button  and record their sound clip as feedback.
-    ![Third screen](/docs/resources/Screen3.png)
+    ![Third screen](../docs/resources/Screen3.png)
 4. **Submission Confirmation:** After the recording is done the user should be able to see what has been said in text format and should be able to play the recording. If everything is correct the user can submit the feedback by pressing the “Submit” button. If that is not the case the user can also delete the recorded audio by pressing the “trash icon” button and start again.
-    ![Fourth screen](/docs/resources/Screen4.png)
+    ![Fourth screen](../docs/resources/Screen4.png)
 
 ---
 

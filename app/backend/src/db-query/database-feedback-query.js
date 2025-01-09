@@ -22,12 +22,28 @@ export async function getFeedbackById(id) {
     return await db.get("SELECT * FROM feedback WHERE id = ?", [id]);
 }
 
-// Insert new feedback
-export async function createFeedback(audioFilePath, transcript) {
+export async function getAudioById(id) {
     const db = await getDb();
+    return await db.get("SELECT audio_file_path FROM feedback WHERE id = ?", [id]);
+}
+
+// Insert new feedback
+// export async function addFeedback(audioFilePath, transcript) {
+//     const db = await getDb();
+//     const result = await db.run(
+//         "INSERT INTO feedback (audio_file_path, transcript) VALUES (?, ?)",
+//         [audioFilePath, transcript]
+//     );
+//     return result.lastID;
+// }
+
+export async function insertFeedback(audioFilePath, transcript) {
+    const db = await getDb();
+    console.log(audioFilePath);
+    console.log(transcript);
     const result = await db.run(
         "INSERT INTO feedback (audio_file_path, transcript) VALUES (?, ?)",
-        [audioFilePath, transcript]
+        [audioFilePath || null, transcript || null],
     );
     return result.lastID;
 }

@@ -3,7 +3,7 @@
 
   import Header from "./components/Header.svelte";
 
-  import Assignment from "./pages/Assignment.svelte";
+  import Assignment from "./pages/FeedbackForm.svelte";
 
   let pageComponent;
   let params = {};
@@ -23,6 +23,3 @@
     <svelte:component this={pageComponent} {params} />
   </main>
 </div>
-
-<style>
-</style>

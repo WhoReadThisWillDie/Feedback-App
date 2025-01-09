@@ -2,14 +2,15 @@
     import {createEventDispatcher} from 'svelte';
     import Button from './Button.svelte';
     import {Icon, Pause, Stop, Microphone} from 'svelte-hero-icons';
+    import SubmitButton from "./SubmitComponent.svelte";
 
-    let recording;
     let extension = 'webm';
     let isRecording = false;
     let isPaused = false;
     let gumStream, recorder, chunks = [];
     let timer = 0;
     let timerInterval;
+    let audioBlob = null;
     const dispatch = createEventDispatcher();
 
     if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
@@ -43,12 +44,9 @@
 
             recorder.ondataavailable = (e) => {
                 chunks.push(e.data);
-                console.log('Recorder state:', recorder.state);
                 if (recorder.state === 'inactive') {
-                    const blob = new Blob(chunks, {type: `audio/${extension}`});
-                    recording = URL.createObjectURL(blob);
-                    console.log('Dispatching recording-change with', {recording, extension});
-                    dispatch('recording-change', {recording, extension});
+                    audioBlob = new Blob(chunks, {type: `audio/${extension}`});
+                    dispatch('recording-change', {audioBlob});
                 }
             };
 
@@ -81,14 +79,12 @@
     function stopRecording() {
         if (recorder && recorder.state !== 'inactive') {
             recorder.onstop = () => {
-                const blob = new Blob(chunks, { type: `audio/${extension}` });
-                console.log("Blob size:", blob.size);
-                if (blob.size === 0) {
+                audioBlob = new Blob(chunks, {type: `audio/${extension}`});
+                if (audioBlob.size === 0) {
                     console.error("Blob is empty. Check if recording chunks were captured.");
                     return;
                 }
-                recording = URL.createObjectURL(blob);
-                dispatch('recording-change', { recording, extension });
+                dispatch('recording-change', {audioBlob});
             };
 
             recorder.stop();
@@ -106,22 +102,8 @@
             timer++;
         }, 1000);
     }
-
-    function formatTime(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const formattedSeconds = seconds % 60;
-        return `${minutes}:${formattedSeconds < 10 ? '0' : ''}${formattedSeconds}`;
-    }
-
-    function exportToDatabase() {
-
-    }
-
 </script>
 
-<!--<div class="text-l font-semibold m-4">-->
-<!--    {isRecording ? `Recording: ${formatTime(timer)}` : "Not Recording"}-->
-<!--</div>-->
 <div class="flex flex-row items-center">
     <Button
             className="!rounded-full !p-0 w-12 h-12 flex items-center justify-center"
@@ -135,10 +117,4 @@
     >
         <Icon src="{Stop}" solid class="text-textColor size-8"/>
     </Button>
-    <div class="p-4">
-        <Button
-                on:click={exportToDatabase}
-        >Submit
-        </Button>
-    </div>
 </div>
