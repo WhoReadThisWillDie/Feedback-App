@@ -51,7 +51,7 @@
 <div class="flex flex-row">
     <RecordButton on:recording-change={handleRecordingUpdate}/>
     {#if audioFile}
-        <AudioFile url="{audioFile}"/>
+        <AudioFile width="400" url="{audioFile}"/>
         <div class="p-4 flex mx-4">
             <Button on:click={transcribeAudio}>Transcribe</Button>
         </div>
