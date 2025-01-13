@@ -92,7 +92,6 @@
         }
         isRecording = false;
         isPaused = false;
-
         clearInterval(timerInterval);
         timer = 0;
     }
@@ -104,17 +103,50 @@
     }
 </script>
 
-<div class="flex items-center gap-2">
-    <Button
-            className="!rounded-full !p-0 w-12 h-12 flex items-center justify-center"
-            on:click={toggleRecording}
-    >
-        <Icon src={!isRecording ? Microphone : isPaused ? Microphone : Pause} solid class="text-textColor size-8"/>
-    </Button>
-    <Button
-            className="!rounded-full !p-0 ml-2 w-12 h-12 flex items-center justify-center"
-            disabled={!isRecording && chunks.length === 0} on:click={stopRecording}
-    >
-        <Icon src="{Stop}" solid class="text-textColor size-8"/>
-    </Button>
+<div class="flex flex-col items-center gap-2">
+    <div class="flex items-center gap-2">
+        <Button
+                className="!rounded-full !p-0 w-12 h-12 flex items-center justify-center"
+                on:click={toggleRecording}
+        >
+            <Icon src={!isRecording ? Microphone : isPaused ? Microphone : Pause} solid class="text-textColor size-8"/>
+        </Button>
+        <Button
+                className="!rounded-full !p-0 ml-2 w-12 h-12 flex items-center justify-center"
+                disabled={!isRecording && chunks.length === 0} on:click={stopRecording}
+        >
+            <Icon src="{Stop}" solid class="text-textColor size-8"/>
+        </Button>
+    </div>
+    {#if isRecording}
+        <!-- Red dot and timer -->
+        <div class="flex items-center gap-2 mt-2">
+            <div class={`dot ${!isPaused ? 'blinking' : ''}`}></div>
+            <span class="text-textColor font-medium">
+            {Math.floor(timer / 60)}:{String(timer % 60).padStart(2, '0')}
+        </span>
+        </div>
+    {/if}
 </div>
+
+<style>
+    .dot {
+        width: 12px;
+        height: 12px;
+        background-color: red;
+        border-radius: 50%;
+    }
+
+    .blinking {
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        0%, 50% {
+            opacity: 1;
+        }
+        50.1%, 100% {
+            opacity: 0;
+        }
+    }
+</style>
