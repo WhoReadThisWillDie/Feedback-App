@@ -2,6 +2,7 @@
     import { Icon, Play, Pause } from "svelte-hero-icons";
     import Button from "./Button.svelte";
 
+    export let width;
     export let url;
     let audioElement;
     let time = 0;
@@ -49,7 +50,7 @@
     }
 </script>
 
-<div class="w-[400px] scale-in-center">
+<div class="scale-in-center" style="width: {width}px;">
     <audio bind:this={audioElement} src={url} on:timeupdate={onTimeUpdate} on:loadedmetadata={onLoadedMetadata}></audio>
 
     <div class="flex items-center gap-2 p-4 rounded-full gradient-before gradient-border h-12 text-textColor">

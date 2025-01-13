@@ -54,7 +54,7 @@
 <div class="flex items-center gap-4">
     <RecordButton on:recording-change={handleRecordingUpdate}/>
     {#if audioFile}
-        <AudioFile url="{audioFile}"/>
+        <AudioFile width="400" url="{audioFile}"/>
         <div class="flex items-center gap-2">
             <Button on:click={transcribeAudio}>Transcribe</Button>
             <Button on:click={clearAudioAndText}
