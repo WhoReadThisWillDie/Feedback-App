@@ -10,12 +10,12 @@ export async function uploadAudio(req, res) {
     }
 
     // This can either be absolute or not. I think it's best to not be absolute, but might as well ask the team.
-    const filePath = file ? path.resolve(file.path) : null;
+    const filePath = file ? file.path : null;
     const transcript = body.transcript || null;
-
+    let audioFile= file || null;
 
     try{
-        const feedbackId = await feedbackQuery.insertFeedback(filePath, transcript);
+        const feedbackId = await feedbackQuery.insertFeedback(audioFile, filePath, transcript);
         res.status(201).json({ message: 'File uploaded and saved to database', id: feedbackId });
     } catch (error){
         res.status(500).json({ error: 'Failed to upload audio.' });

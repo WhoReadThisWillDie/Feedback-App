@@ -10,57 +10,47 @@ async function getDb() {
     return db;
 }
 
-// Select all feedback entries
+// Select all feedback_audio entries
 export async function getAllFeedback() {
     const db = await getDb();
-    return await db.all("SELECT * FROM feedback");
+    return await db.all("SELECT * FROM feedback_audio");
 }
 
-// Select feedback by ID
+// Select feedback_audio by ID
 export async function getFeedbackById(id) {
     const db = await getDb();
-    return await db.get("SELECT * FROM feedback WHERE id = ?", [id]);
+    return await db.get("SELECT * FROM feedback_audio WHERE id = ?", [id]);
 }
 
 export async function getAudioById(id) {
     const db = await getDb();
-    return await db.get("SELECT audio_file_path FROM feedback WHERE id = ?", [id]);
+    return await db.get("SELECT audio_file_path FROM feedback_audio WHERE id = ?", [id]);
 }
 
-// Insert new feedback
-// export async function addFeedback(audioFilePath, transcript) {
-//     const db = await getDb();
-//     const result = await db.run(
-//         "INSERT INTO feedback (audio_file_path, transcript) VALUES (?, ?)",
-//         [audioFilePath, transcript]
-//     );
-//     return result.lastID;
-// }
-
-export async function insertFeedback(audioFilePath, transcript) {
+export async function insertFeedback(audioFile, audioFilePath, transcript) {
     const db = await getDb();
     console.log(audioFilePath);
     console.log(transcript);
     const result = await db.run(
-        "INSERT INTO feedback (audio_file_path, transcript) VALUES (?, ?)",
-        [audioFilePath || null, transcript || null],
+        "INSERT INTO feedback_audio (audio_file, audio_file_path, transcript) VALUES (?, ?, ?)",
+        [audioFile || null, audioFilePath || null, transcript || null],
     );
     return result.lastID;
 }
 
-// Update feedback by ID
+// Update feedback_audio by ID
 export async function updateFeedback(id, audioFilePath, transcript) {
     const db = await getDb();
     const result = await db.run(
-        "UPDATE feedback SET audio_file_path = ?, transcript = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+        "UPDATE feedback_audio SET audio_file_path = ?, transcript = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
         [audioFilePath, transcript, id]
     );
     return result.changes > 0;
 }
 
-// Delete feedback by ID
+// Delete feedback_audio by ID
 export async function deleteFeedback(id) {
     const db = await getDb();
-    const result = await db.run("DELETE FROM feedback WHERE id = ?", [id]);
+    const result = await db.run("DELETE FROM feedback_audio WHERE id = ?", [id]);
     return result.changes > 0;
 }
