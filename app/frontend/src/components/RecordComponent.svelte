@@ -104,7 +104,7 @@
     }
 </script>
 
-<div class="flex flex-row items-center">
+<div class="flex items-center gap-2">
     <Button
             className="!rounded-full !p-0 w-12 h-12 flex items-center justify-center"
             on:click={toggleRecording}
