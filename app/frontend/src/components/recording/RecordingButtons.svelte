@@ -19,17 +19,13 @@
         if (isRecording) {
             alert('Stop the current recording before switching modes.');
             return;
+        } else if (recordedUrl === '' || confirm('Are you sure that you want to overwrite the current recording?')){
+            resetRecording();
+            isAudioOnly = !isAudioOnly;
+            detectMimeType();
+            dispatch('mode-change', {isAudioOnly});
         }
 
-        if (recordedUrl !== '') {
-            if(confirm('Are you sure you want to over write the current recording?')) {
-                resetRecording();
-                isAudioOnly = !isAudioOnly;
-                detectMimeType();
-
-                dispatch('mode-change', {isAudioOnly});
-            }
-        }
     }
 
     function detectMimeType() {
