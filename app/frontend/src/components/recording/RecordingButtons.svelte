@@ -21,11 +21,15 @@
             return;
         }
 
-        resetRecording();
-        isAudioOnly = !isAudioOnly;
-        detectMimeType();
+        if (recordedUrl !== '') {
+            if(confirm('Are you sure you want to over write the current recording?')) {
+                resetRecording();
+                isAudioOnly = !isAudioOnly;
+                detectMimeType();
 
-        dispatch('mode-change', {isAudioOnly});
+                dispatch('mode-change', {isAudioOnly});
+            }
+        }
     }
 
     function detectMimeType() {
