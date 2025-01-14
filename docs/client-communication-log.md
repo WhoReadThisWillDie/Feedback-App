@@ -33,3 +33,9 @@ Additionally, we provided our discord information and were added into our group 
 We received a link to our group discord channel.
 ### Response 27.11.2024
 Date and time conformation for our next meeting which took place on 05.12.2024.
+
+### Client meeting 9.01.2025
+In the third meeting, after an overview of our development process in sprint 2, we demonstrated our newly updated
+product to the client. The client expressed satisfaction with our product, stating that the design and functionality are up to par
+with his expectations. Afterward, the client gave us some feedback, telling us that we should add some user-friendly elements and reactivity to improve
+the user experience, and also a way to see the actual outcome of feedback being able to be shown. 
