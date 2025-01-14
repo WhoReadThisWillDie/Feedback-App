@@ -1,13 +1,13 @@
 <script>
-    import RecordButton from "./RecordComponent.svelte";
-    import AudioFile from "./AudioFile.svelte";
-    import { fade } from 'svelte/transition';
+    import RecordComponent from "./RecordComponent.svelte";
+    import {fade} from 'svelte/transition';
     import Button from "./Button.svelte";
-    import { fetchTranscription } from "../api/fetchTranscription";
+    import {fetchTranscription} from "../api/fetchTranscription";
     import LoadingAnimation from "./animations/LoadingAnimation.svelte";
     import SubmitButton from "./SubmitComponent.svelte";
 
     let audioFile;
+    let videoFile;
     let blob;
     let isLoading = false;
     let transcriptionTextPromise = "";
@@ -24,8 +24,15 @@
 
     // Update recording explicitly when a new file is recorded
     function handleRecordingUpdate(event) {
-        blob = event.detail.audioBlob;
-        audioFile = URL.createObjectURL(blob);
+        blob = event.detail.recordedFile;
+        let fileIsAudioOnly = event.detail.fileIsAudioOnly;
+        if (fileIsAudioOnly) {
+            audioFile = URL.createObjectURL(blob);
+            videoFile = null;
+        } else {
+            videoFile = URL.createObjectURL(blob);
+            audioFile = null;
+        }
     }
 
     async function transcribeAudio() {
@@ -37,6 +44,19 @@
         typeWords()
     }
 
+    async function transcribeVideo() {
+        isLoading = true;
+        // transcribe
+        isLoading = false;
+        text = text + ' ';
+        currentWordIndex = 0;
+        typeWords();
+    }
+
+    function handleModeChange() {
+        audioFile = null;
+        videoFile = null;
+    }
 
 
 </script>
@@ -48,16 +68,25 @@
         placeholder="Type here..."
         class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-32 border-gray-150 border-2"
 />
-<div class="flex flex-row">
-    <RecordButton on:recording-change={handleRecordingUpdate}/>
-    {#if audioFile}
-        <AudioFile url="{audioFile}"/>
-        <div class="p-4 flex mx-4">
-            <Button on:click={transcribeAudio}>Transcribe</Button>
-        </div>
-    {/if}
+<div class="flex flex-row justify-between">
+    <div>
+        <RecordComponent on:recording-change={handleRecordingUpdate} on:mode-change={handleModeChange}/>
+    </div>
+    <div class="place-content-center max-h-12">
+        {#if audioFile}
+            <div>
+                <Button on:click={transcribeAudio}>Transcribe</Button>
+            </div>
+        {:else if videoFile}
+            <div>
+                <Button on:click={transcribeVideo}>Transcribe</Button>
+            </div>
+        {/if}
+    </div>
 </div>
-<SubmitButton audioBlob={blob} text={text}/>
+<div>
+    <SubmitButton audioBlob={blob} text={text}/>
+</div>
 
 {#if isLoading}
     <LoadingAnimation/>
