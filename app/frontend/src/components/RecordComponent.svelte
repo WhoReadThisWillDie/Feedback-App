@@ -64,7 +64,7 @@
 
     {#if recordedFile && recordedFile !== ''}
         {#if fileIsAudioOnly}
-            <AudioFile url={url}></AudioFile>
+            <AudioFile url="{url}"></AudioFile>
         {:else}
             <div class="flex flex-col w-full max-w-56 ml-2">
                 <video src={url} controls autoplay
