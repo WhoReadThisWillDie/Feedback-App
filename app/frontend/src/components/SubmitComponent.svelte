@@ -1,7 +1,7 @@
 <script>
     import Button from "./Button.svelte";
     import SubmitAnimation from "./animations/SubmitAnimation.svelte";
-    import {fetchFeedback} from "../api/fetchFeedback.js";
+    import {postFeedback} from "../api/postFeedback.js";
 
     let showSuccess = false;
     export let audioBlob;
@@ -9,24 +9,24 @@
 
     async function exportToDatabase() {
 
-        if(!audioBlob && !text){
-            alert("No audio or text/transcription available.")
+        if (!audioBlob && !text) {
+            alert("No audio or text specified.")
+            return
         }
 
         const formData = new FormData();
 
-        if (audioBlob){
+        if (audioBlob) {
             formData.append('audio', audioBlob, `recording.wav`);
         }
 
-        if(text){
+        if (text) {
             formData.append('transcript', text);
         }
 
-        console.log(text);
-
-        await fetchFeedback(formData);
-        showSuccessBox();
+        if (await postFeedback(formData)) {
+            showSuccessBox();
+        }
     }
 
     function showSuccessBox() {

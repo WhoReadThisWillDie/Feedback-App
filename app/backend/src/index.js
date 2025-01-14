@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import feedbackRouter from './routes/feedbacks.js';
 import transcriptionRouter from './routes/transcriptions.js';
+import staticFilesRouter from './routes/static-files.js';
 import initializeDatabase from './db.js';
 
 const app = express();
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
 
 app.use("/feedbacks", feedbackRouter);
 app.use("/transcriptions", transcriptionRouter);
+app.use("/static", staticFilesRouter);
 
 initializeDatabase()
   .then((db) => {

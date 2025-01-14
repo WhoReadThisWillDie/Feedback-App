@@ -28,6 +28,9 @@
 
     function onTimeUpdate() {
         time = audioElement.currentTime;
+        if (time >= duration) {
+            paused = true;
+        }
     }
 
     function onLoadedMetadata() {

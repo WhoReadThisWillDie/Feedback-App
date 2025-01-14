@@ -2,7 +2,6 @@
     import {createEventDispatcher} from 'svelte';
     import Button from './Button.svelte';
     import {Icon, Pause, Stop, Microphone} from 'svelte-hero-icons';
-    import SubmitButton from "./SubmitComponent.svelte";
 
     let extension = 'webm';
     let isRecording = false;
