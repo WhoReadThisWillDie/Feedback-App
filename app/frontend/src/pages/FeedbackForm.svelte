@@ -4,7 +4,7 @@
 </script>
 
 <div class="flex flex-col items-center justify-center">
-  <div class="flex flex-col gap-4 w-2/3">
+  <div class="flex flex-col gap-6 w-full max-w-md sm:max-w-lg md:max-w-2xl">
     <FormComponent/>
     <FeedbackListComponent/>
   </div>
