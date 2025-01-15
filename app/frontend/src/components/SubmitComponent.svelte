@@ -2,10 +2,13 @@
     import Button from "./Button.svelte";
     import SubmitAnimation from "./animations/SubmitAnimation.svelte";
     import {postFeedback} from "../api/postFeedback.js";
+    import {createEventDispatcher} from "svelte";
 
     let showSuccess = false;
     export let audioBlob;
     export let text;
+
+    const dispatch = createEventDispatcher();
 
     async function exportToDatabase() {
 
@@ -27,6 +30,7 @@
         if (await postFeedback(formData)) {
             showSuccessBox();
         }
+        dispatch('submit-feedback')
     }
 
     function showSuccessBox() {

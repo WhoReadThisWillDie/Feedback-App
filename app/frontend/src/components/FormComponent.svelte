@@ -7,12 +7,16 @@
     import LoadingAnimation from "./animations/LoadingAnimation.svelte";
     import SubmitButton from "./SubmitComponent.svelte";
     import { Icon, Trash } from "svelte-hero-icons";
+    import {createEventDispatcher} from "svelte";
+
     let audioFile;
     let blob;
     let isLoading = false;
     let transcriptionTextPromise = "";
     let text = "";
     let currentWordIndex = 0;
+
+    const dispatch = createEventDispatcher();
 
     function clearAudioAndText() {
         audioFile = null;
@@ -42,6 +46,10 @@
         currentWordIndex = 0
         typeWords()
     }
+
+    function handleFeedbackSubmission() {
+        dispatch('submit-feedback')
+    }
 </script>
 
 <h2 class="font-medium text-textColor">Feedback</h2>
@@ -64,7 +72,7 @@
         </div>
     {/if}
 </div>
-<SubmitButton audioBlob={blob} text={text}/>
+<SubmitButton audioBlob={blob} text={text} on:submit-feedback={handleFeedbackSubmission}/>
 
 {#if isLoading}
     <LoadingAnimation/>

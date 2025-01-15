@@ -2,11 +2,12 @@
     import AudioFile from "./AudioFile.svelte";
     import {fetchFeedbacks} from "../api/fetchFeedbacks.js";
 
+    export let feedbacks = [];
+
     let isVisible = false;
-    let feedbacksPromise = [];
 
     function toggleVisibility() {
-        if (!isVisible) feedbacksPromise = fetchFeedbacks();
+        if (!isVisible && feedbacks.length === 0) feedbacks = fetchFeedbacks();
         isVisible = !isVisible;
     }
 </script>
@@ -23,10 +24,10 @@
     <!-- List container -->
         <div class="w-full h-[1px] bg-gray-300 mt-1"></div>
         <ul class="mt-2 space-y-2 h-[200px] overflow-y-auto p-2">
-            {#await feedbacksPromise}
+            {#await feedbacks}
                 <p>Loading feedbacks...</p>
-            {:then feedbacks}
-                {#each feedbacks as feedback}
+            {:then feedbackList}
+                {#each feedbackList as feedback}
                     <!-- Item template -->
                     <li class="p-2 text-textColor bg-gray-100 rounded-lg shadow-sm flex justify-between">
                         <div class="mr-16">
@@ -35,7 +36,7 @@
                                 <AudioFile width="300" url="{feedback.audioFilePath}"/>
                             {/if}
                         </div>
-                        <div class="mr-5">
+                        <div class="mr-5 flex items-center">
                             {#if feedback.transcript}
                                 <p class="text-textColor text-[15px] text-centert">{feedback.transcript}</p>
                             {/if}
