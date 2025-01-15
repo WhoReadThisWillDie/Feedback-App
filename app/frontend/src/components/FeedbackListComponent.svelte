@@ -1,9 +1,13 @@
 <script>
     import AudioFile from "./AudioFile.svelte";
+    import {fetchFeedbacks} from "../api/fetchFeedbacks.js";
+
+    export let feedbacks = [];
 
     let isVisible = false;
 
     function toggleVisibility() {
+        if (!isVisible && feedbacks.length === 0) feedbacks = fetchFeedbacks();
         isVisible = !isVisible;
     }
 </script>
@@ -20,67 +24,28 @@
     <div class={`overflow-hidden transition-[max-height] duration-1000 ease-in-out ${ isVisible ? 'max-h-64' : 'max-h-0' }`}>
         <div class="w-full h-[1px] bg-gray-300 mt-1"></div>
         <ul class="mt-2 space-y-2 h-[200px] overflow-y-auto p-2">
-            <!-- Item template -->
-            <li class="p-2 text-textColor bg-gray-100 rounded-lg shadow-sm flex flex-col md:flex-row justify-between">
-                <div class="mb-2 md:mb-0 md:mr-16">
-                    <p class="text-sm text-textColor">01.12.2025</p>
-                    <AudioFile width="250" url="PLACE_URL_HERE"/>
-                </div>
-                <div class="mr-5">
-                    <p class="text-textColor text-[15px] text-centert">This is a text from a transcription.
-                        It is not connected tot the backend yet, but will soon.
-                        This is just a demonstration of a list I created lol.
-                        I don't know what else I can write it to make it longer so la-la-la-la-la-la</p>
-                </div>
-            </li>
-            <li class="p-2 text-textColor bg-gray-100 rounded-lg shadow-sm flex justify-between">
-                <div class="mr-16">
-                    <p class="ml-5 text-textColor">01.12.2025</p>
-                    <AudioFile width="250" url="PLACE_URL_HERE"/>
-                </div>
-                <div class="mr-5">
-                    <p class="text-textColor text-[15px] text-centert">This is a text from a transcription.
-                        It is not connected tot the backend yet, but will soon.
-                        This is just a demonstration of a list I created lol.
-                        I don't know what else I can write it to make it longer so la-la-la-la-la-la</p>
-                </div>
-            </li>
-            <li class="p-2 text-textColor bg-gray-100 rounded-lg shadow-sm flex flex-col md:flex-row justify-between">
-                <div class="mb-2 md:mb-0 md:mr-16">
-                    <p class="text-sm text-textColor">01.12.2025</p>
-                    <AudioFile width="250" url="PLACE_URL_HERE"/>
-                </div>
-                <div class="mr-5">
-                    <p class="text-textColor text-[15px] text-centert">This is a text from a transcription.
-                        It is not connected tot the backend yet, but will soon.
-                        This is just a demonstration of a list I created lol.
-                        I don't know what else I can write it to make it longer so la-la-la-la-la-la</p>
-                </div>
-            </li>
-            <li class="p-2 text-textColor bg-gray-100 rounded-lg shadow-sm flex flex-col md:flex-row justify-between">
-                <div class="mb-2 md:mb-0 md:mr-16">
-                    <p class="text-sm text-textColor">01.12.2025</p>
-                    <AudioFile width="250" url="PLACE_URL_HERE"/>
-                </div>
-                <div class="mr-5">
-                    <p class="text-textColor text-[15px] text-centert">This is a text from a transcription.
-                        It is not connected tot the backend yet, but will soon.
-                        This is just a demonstration of a list I created lol.
-                        I don't know what else I can write it to make it longer so la-la-la-la-la-la</p>
-                </div>
-            </li>
-            <li class="p-2 text-textColor bg-gray-100 rounded-lg shadow-sm flex flex-col md:flex-row justify-between">
-                <div class="mb-2 md:mb-0 md:mr-16">
-                    <p class="text-sm text-textColor">01.12.2025</p>
-                    <AudioFile width="250" url="PLACE_URL_HERE"/>
-                </div>
-                <div class="mr-5">
-                    <p class="text-textColor text-[15px] text-centert">This is a text from a transcription.
-                        It is not connected tot the backend yet, but will soon.
-                        This is just a demonstration of a list I created lol.
-                        I don't know what else I can write it to make it longer so la-la-la-la-la-la</p>
-                </div>
-            </li>
+            {#await feedbacks}
+                <p>Loading feedbacks...</p>
+            {:then feedbackList}
+                {#each feedbackList as feedback}
+                    <!-- Item template -->
+                    <li class="p-2 text-textColor bg-gray-100 rounded-lg shadow-sm flex flex-col md:flex-row justify-between">
+                        <div class="mb-2 md:mb-0 md:mr-16">
+                            <p class="text-sm text-textColor">{feedback.createdAt}</p>
+                            {#if feedback.audioFilePath}
+                                <AudioFile width="250" url="{feedback.audioFilePath}"/>
+                            {/if}
+                        </div>
+                        <div class="mr-5">
+                            {#if feedback.transcript}
+                                <p class="text-textColor text-[15px] text-center">{feedback.transcript}</p>
+                            {/if}
+                        </div>
+                    </li>
+                {/each}
+            {:catch error}
+                <p>Error: {error.message}</p>
+            {/await}
         </ul>
     </div>
 </div>
