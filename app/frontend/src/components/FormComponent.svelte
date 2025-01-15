@@ -44,17 +44,17 @@
     }
 </script>
 
-<h2 class="font-medium text-textColor">Feedback</h2>
+<h2 class="font-medium text-textColor text-xl md:text-2xl">Feedback</h2>
 <textarea
         transition:fade
         bind:value={text}
         placeholder="Type here..."
-        class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-32 border-gray-150 border-2"
+        class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-[128px] border-gray-150 border-2 focus:outline-none md:min-h-[160px] lg:min-h-[200px]"
 />
-<div class="flex items-center gap-4">
+<div class="flex flex-col md:flex-row items-center gap-4">
     <RecordButton on:recording-change={handleRecordingUpdate}/>
     {#if audioFile}
-        <AudioFile width="400" url="{audioFile}"/>
+        <AudioFile width="350" url="{audioFile}"/>
         <div class="flex items-center gap-2">
             <Button on:click={transcribeAudio}>Transcribe</Button>
             <Button on:click={clearAudioAndText}
