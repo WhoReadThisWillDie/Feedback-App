@@ -7,6 +7,7 @@
     import LoadingAnimation from "./animations/LoadingAnimation.svelte";
     import SubmitButton from "./SubmitComponent.svelte";
     import { Icon, Trash } from "svelte-hero-icons";
+    import ConfirmationComponent from "./ConfirmationComponent.svelte";
 
     let audioFile;
     let blob;
@@ -15,15 +16,24 @@
     let text = "";
     let currentWordIndex = 0;
     let isRemoving = false;
+    let toDeleteChoice;
 
-    function clearAudioAndText() {
-        isRemoving = true; // Start reverse animation
-        setTimeout(() => {
-            audioFile = null;
-            blob = null;
-            text = "";
-            isRemoving = false; // Reset for future animations
-        }, 1000); // Match the animation duration
+    async function clearAudioAndText() {
+        console.log(toDeleteChoice);
+        if(toDeleteChoice===undefined){
+            console.log("In if case")
+            toDeleteChoice=null;
+            return;
+        }
+        if(toDeleteChoice===true){
+            isRemoving = true; // Start reverse animation
+            setTimeout(() => {
+                audioFile = null;
+                blob = null;
+                text = "";
+                isRemoving = false; // Reset for future animations
+            }, 1000); // Match the animation duration
+        }
     }
 
     let typeWords = () => {
@@ -77,6 +87,10 @@
 
 {#if isLoading}
     <LoadingAnimation/>
+{/if}
+
+{#if toDeleteChoice===null}
+    <ConfirmationComponent bind:toDeleteChoice {clearAudioAndText}/>
 {/if}
 
 <style>
