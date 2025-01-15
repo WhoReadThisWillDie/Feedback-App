@@ -78,3 +78,25 @@
     {/if}
 
 </div>
+
+<style>
+    .dot {
+        width: 12px;
+        height: 12px;
+        background-color: red;
+        border-radius: 50%;
+    }
+
+    .blinking {
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        0%, 50% {
+            opacity: 1;
+        }
+        50.1%, 100% {
+            opacity: 0;
+        }
+    }
+</style>

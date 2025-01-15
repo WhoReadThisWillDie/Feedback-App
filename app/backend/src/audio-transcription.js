@@ -2,6 +2,7 @@ import {pipeline} from '@huggingface/transformers'
 import fs from 'fs'
 import {decode} from 'wav-decoder'
 import ffmpeg from 'fluent-ffmpeg'
+import path from "path";
 
 // Download the Whisper model (if not already downloaded)
 const model = await pipeline('automatic-speech-recognition', 'distil-whisper/distil-small.en', {
@@ -61,7 +62,13 @@ function sliceAudio(channelData, sampleRate, chunkLength) {
  * @returns {Promise<string>} Promise with the transcribed text
  */
 export async function transcribeAudio(filePath) {
-    const tempFilePath = './recordings/converted.wav'
+    const tempDir = "./recordings";
+    const tempFilePath = path.join(tempDir, "converted.wav");
+
+    if(!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir, { recursive: true });
+    }
+
     await convertTo16KHzMono(filePath, tempFilePath)
 
     const decodedData = await readWavFile(tempFilePath)

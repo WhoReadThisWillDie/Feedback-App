@@ -2,6 +2,7 @@
     import { Icon, Play, Pause } from "svelte-hero-icons";
     import Button from "./Button.svelte";
 
+    export let width;
     export let url;
     let audioElement;
     let time = 0;
@@ -27,6 +28,9 @@
 
     function onTimeUpdate() {
         time = audioElement.currentTime;
+        if (time >= duration) {
+            paused = true;
+        }
     }
 
     function onLoadedMetadata() {
