@@ -95,7 +95,7 @@
         transition:fade
         bind:value={text}
         placeholder="Type here..."
-        class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-[128px] border-gray-150 border-2 focus:outline-none md:min-h-[160px] lg:min-h-[200px]"
+        class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-[128px] border-gray-150 border-2 focus:outline-none md:min-h-[150px] lg:min-h-[150px]"
 />
 <div class="flex flex-row justify-between">
     <div>

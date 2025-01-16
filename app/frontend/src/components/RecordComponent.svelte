@@ -7,10 +7,10 @@
 
     let fileIsAudioOnly;
     let cameraOn = false;
-    export let recordedFile;
     let url;
     let videoStream;
     export let isRemoving;
+    export let recordedFile;
 
     function handleCompletedRecording(event) {
         recordedFile = event.detail.blob;
@@ -53,8 +53,6 @@
             videoStream = null;
         }
     }
-
-    $: console.log(recordedFile)
 </script>
 
 <div class="flex flex-start">
@@ -62,13 +60,14 @@
         <RecordingButtons on:recording-complete={handleCompletedRecording} on:mode-change={handleModeChange}/>
     </div>
         <div class="{isRemoving ? 'scale-out-center' : 'scale-in-center'}">
-            {#if recordedFile && recordedFile !== ''}
+            {#if recordedFile}
                 {#if fileIsAudioOnly}
-                    <AudioFile width="400" url="{url}"></AudioFile>
+                    <div class="scale-in-center">
+                        <AudioFile width="400" url="{url}"></AudioFile>
+                    </div>
                 {:else}
                     <div class="flex flex-col w-full max-w-56 ml-2">
-                        <video src={url} controls autoplay
-                               class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
+                        <video src={url} controls autoplay class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
                     </div>
                 {/if}
             {:else if cameraOn}
@@ -80,25 +79,6 @@
 </div>
 
 <style>
-    .dot {
-        width: 12px;
-        height: 12px;
-        background-color: red;
-        border-radius: 50%;
-    }
-
-    .blinking {
-        animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-        0%, 50% {
-            opacity: 1;
-        }
-        50.1%, 100% {
-            opacity: 0;
-        }
-    }
     .scale-in-center {
         animation: scale-in-center 1s cubic-bezier(0.25, 1, 0.5, 1) both;
     }
