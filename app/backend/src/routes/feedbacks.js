@@ -7,5 +7,6 @@ const router = express.Router();
 router.get("/", feedbackController.getAllFeedbacks);
 
 router.post("/", upload.single('audio'), feedbackController.uploadAudio);
+// router.post("/video", upload.single('video'), feedbackController.uploadVideo);
 
 export default router;
