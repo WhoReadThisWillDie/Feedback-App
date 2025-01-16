@@ -118,6 +118,7 @@
             isRecording = false;
             isPaused = false;
             stopTimer();
+            timer = 0;
         }
     }
 
