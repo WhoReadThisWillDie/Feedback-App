@@ -53,7 +53,7 @@
     }
 </script>
 
-<div class="ml-2 w-[400px] scale-in-center">
+<div class="ml-2 w-[400px]">
     <audio bind:this={audioElement} src={url} on:timeupdate={onTimeUpdate} on:loadedmetadata={onLoadedMetadata}></audio>
     <div class="flex items-center gap-2 p-4 rounded-full gradient-before gradient-border h-12 text-textColor">
         <Button className="!rounded-full !p-0 w-9 h-9 flex items-center justify-center" on:click={togglePlay}>
@@ -69,34 +69,3 @@
         <span class="text-xs">{format(time)} / {format(duration)}</span>
     </div>
 </div>
-
-<style>
-    .scale-in-center {
-        -webkit-animation: scale-in-center 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-        animation: scale-in-center 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-    }
-    @-webkit-keyframes scale-in-center {
-        0% {
-            -webkit-transform: scale(0);
-            transform: scale(0);
-            opacity: 1;
-        }
-        100% {
-            -webkit-transform: scale(1);
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-    @keyframes scale-in-center {
-        0% {
-            -webkit-transform: scale(0);
-            transform: scale(0);
-            opacity: 1;
-        }
-        100% {
-            -webkit-transform: scale(1);
-            transform: scale(1);
-            opacity: 1;
-        }
-    }
-</style>

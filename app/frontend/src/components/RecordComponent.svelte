@@ -1,23 +1,21 @@
 <script>
     import RecordingButtons from "./recording/RecordingButtons.svelte";
     import AudioFile from "./AudioFile.svelte";
-    import SubmitButton from "./SubmitComponent.svelte";
-    import {createEventDispatcher} from "svelte";
+    import {createEventDispatcher, tick} from "svelte";
 
     const dispatch = createEventDispatcher();
 
-    let fileIsAudioOnly;
+    let fileIsAudioOnly = true;
     let cameraOn = false;
-    let recordedFile;
     let url;
     let videoStream;
+    export let isRemoving;
+    export let recordedFile;
 
     function handleCompletedRecording(event) {
         recordedFile = event.detail.blob;
         fileIsAudioOnly = event.detail.isAudioOnly;
         url = URL.createObjectURL(recordedFile);
-
-        console.log(recordedFile, 'isAudioOnly: ', fileIsAudioOnly);
 
         dispatch('recording-change', { recordedFile, fileIsAudioOnly });
         stopCamera();
@@ -25,12 +23,8 @@
 
     function handleModeChange(event) {
         cameraOn = !event.detail.isAudioOnly;
-        recordedFile = '';
-        if (cameraOn) {
-            startCamera();
-        } else {
-            stopCamera();
-        }
+        fileIsAudioOnly = event.detail.isAudioOnly;
+        recordedFile = null;
         dispatch('mode-change');
     }
 
@@ -55,47 +49,66 @@
             videoStream = null;
         }
     }
+
+    $: if (!recordedFile && !fileIsAudioOnly) {
+        startCamera()
+    }
+
+    $: if (fileIsAudioOnly) {
+        stopCamera()
+    }
 </script>
 
 <div class="flex flex-start">
     <div class="flex flex-row items-start">
         <RecordingButtons on:recording-complete={handleCompletedRecording} on:mode-change={handleModeChange}/>
     </div>
-
-    {#if recordedFile && recordedFile !== ''}
-        {#if fileIsAudioOnly}
-            <AudioFile url="{url}"></AudioFile>
-        {:else}
-            <div class="flex flex-col w-full max-w-56 ml-2">
-                <video src={url} controls autoplay
-                       class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
-            </div>
-        {/if}
-    {:else if cameraOn}
-        <div class="flex flex-col w-full max-w-56 ml-2">
-            <video id="camera" autoplay muted class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
+        <div class="{isRemoving ? 'scale-out-center' : 'scale-in-center'}">
+            {#if recordedFile}
+                {#if fileIsAudioOnly}
+                    <div class="scale-in-center">
+                        <AudioFile width="400" url="{url}"></AudioFile>
+                    </div>
+                {:else}
+                    <div class="flex flex-col w-full max-w-56 ml-2">
+                        <video src={url} controls autoplay class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
+                    </div>
+                {/if}
+            {:else if cameraOn}
+                <div class="scale-in-center flex flex-col w-full max-w-56 ml-2">
+                    <video id="camera" autoplay muted class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
+                </div>
+            {/if}
         </div>
-    {/if}
-
 </div>
 
 <style>
-    .dot {
-        width: 12px;
-        height: 12px;
-        background-color: red;
-        border-radius: 50%;
+    .scale-in-center {
+        animation: scale-in-center 1s cubic-bezier(0.25, 1, 0.5, 1) both;
     }
 
-    .blinking {
-        animation: blink 1s infinite;
+    .scale-out-center {
+        animation: scale-out-center 1s cubic-bezier(0.25, 1, 0.5, 1) both;
     }
 
-    @keyframes blink {
-        0%, 50% {
+    @keyframes scale-in-center {
+        0% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
             opacity: 1;
         }
-        50.1%, 100% {
+    }
+
+    @keyframes scale-out-center {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(0.8);
             opacity: 0;
         }
     }
