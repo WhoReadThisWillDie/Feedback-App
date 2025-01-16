@@ -5,7 +5,6 @@
     import {fetchTranscription} from "../api/fetchTranscription";
     import LoadingAnimation from "./animations/LoadingAnimation.svelte";
     import SubmitButton from "./SubmitComponent.svelte";
-    import { Icon, Trash } from "svelte-hero-icons";
     import ConfirmationComponent from "./ConfirmationComponent.svelte";
     import {createEventDispatcher} from "svelte";
 
@@ -112,7 +111,7 @@
     </div>
 </div>
 <div>
-    <SubmitButton audioBlob={blob} text={text}/>
+    <SubmitButton audioBlob={blob} text={text} on:submit-feedback={handleFeedbackSubmission}/>
 </div>
 
 {#if isLoading}
