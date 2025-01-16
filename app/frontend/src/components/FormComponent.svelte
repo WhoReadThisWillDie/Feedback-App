@@ -1,16 +1,15 @@
 <script>
-    import RecordButton from "./RecordComponent.svelte";
-    import AudioFile from "./AudioFile.svelte";
-    import { fade } from 'svelte/transition';
+    import RecordComponent from "./RecordComponent.svelte";
+    import {fade} from 'svelte/transition';
     import Button from "./Button.svelte";
-    import { fetchTranscription } from "../api/fetchTranscription";
+    import {fetchTranscription} from "../api/fetchTranscription";
     import LoadingAnimation from "./animations/LoadingAnimation.svelte";
     import SubmitButton from "./SubmitComponent.svelte";
-    import { Icon, Trash } from "svelte-hero-icons";
     import ConfirmationComponent from "./ConfirmationComponent.svelte";
     import {createEventDispatcher} from "svelte";
 
     let audioFile;
+    let videoFile;
     let blob;
     let isLoading = false;
     let transcriptionTextPromise = "";
@@ -48,8 +47,15 @@
 
     // Update recording explicitly when a new file is recorded
     function handleRecordingUpdate(event) {
-        blob = event.detail.audioBlob;
-        audioFile = URL.createObjectURL(blob);
+        blob = event.detail.recordedFile;
+        let fileIsAudioOnly = event.detail.fileIsAudioOnly;
+        if (fileIsAudioOnly) {
+            audioFile = URL.createObjectURL(blob);
+            videoFile = null;
+        } else {
+            videoFile = URL.createObjectURL(blob);
+            audioFile = null;
+        }
     }
 
     async function transcribeAudio() {
@@ -60,6 +66,21 @@
         currentWordIndex = 0;
         typeWords();
     }
+
+    async function transcribeVideo() {
+        isLoading = true;
+        // transcribe
+        isLoading = false;
+        text = text + ' ';
+        currentWordIndex = 0;
+        typeWords();
+    }
+
+    function handleModeChange() {
+        audioFile = null;
+        videoFile = null;
+    }
+
 
     function handleFeedbackSubmission() {
         dispatch('submit-feedback')
@@ -73,24 +94,25 @@
         placeholder="Type here..."
         class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-[128px] border-gray-150 border-2 focus:outline-none md:min-h-[160px] lg:min-h-[200px]"
 />
-<div class="flex flex-col md:flex-row items-center gap-4">
-    <RecordButton on:recording-change={handleRecordingUpdate}/>
-    {#if audioFile}
-        {#key isRemoving}
-            <div class="ml-[70px] {isRemoving ? 'scale-out-center' : 'scale-in-center'} flex flex-row space-x-[30px]">
-                <AudioFile width="350" url="{audioFile}"/>
-                <div class="flex items-center gap-2">
-                    <Button on:click={transcribeAudio}>Transcribe</Button>
-                    <Button on:click={clearAudioAndText}
-                            className="!rounded-full !p-0 w-12 h-12 flex items-center justify-center">
-                        <Icon src={Trash} solid class="text-textColor size-8" />
-                    </Button>
-                </div>
+<div class="flex flex-row justify-between">
+    <div>
+        <RecordComponent on:recording-change={handleRecordingUpdate} on:mode-change={handleModeChange}/>
+    </div>
+    <div class="place-content-center max-h-12">
+        {#if audioFile}
+            <div>
+                <Button on:click={transcribeAudio}>Transcribe</Button>
             </div>
-        {/key}
-    {/if}
+        {:else if videoFile}
+            <div>
+                <Button on:click={transcribeVideo}>Transcribe</Button>
+            </div>
+        {/if}
+    </div>
 </div>
-<SubmitButton audioBlob={blob} text={text} on:submit-feedback={handleFeedbackSubmission}/>
+<div>
+    <SubmitButton audioBlob={blob} text={text} on:submit-feedback={handleFeedbackSubmission}/>
+</div>
 
 {#if isLoading}
     <LoadingAnimation/>
