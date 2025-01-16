@@ -9,6 +9,8 @@ export async function uploadAudio(req, res) {
         return res.status(400).json({ error: "No file or transcript uploaded"});
     }
 
+    console.log(file)
+
     const filePath = file ? file.path : null;
     const transcript = body.transcript || null;
     let audioFile= filePath ? fs.readFileSync(filePath) : null;
@@ -26,7 +28,7 @@ export async function getAllFeedbacks(req, res) {
     try {
         const feedbacks = await feedbackQuery.getAllFeedbacks();
         const result = feedbacks.map(feedback => ({
-            audioFilePath: feedback.audio_file_path ? `http://localhost:3000/static/${feedback.audio_file_path}` : null,
+            audioFilePath: feedback.file_path ? `http://localhost:3000/static/${feedback.file_path}` : null,
             transcript: feedback.transcript,
             createdAt: feedback.created_at,
         }))

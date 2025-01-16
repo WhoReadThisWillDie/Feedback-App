@@ -1,6 +1,6 @@
 export const fetchTranscription = async (blob) => {
     const formData = new FormData()
-    formData.append('audio', blob, 'recording.wav')
+    formData.append('file', blob, 'file')
 
         const response = await fetch("http://localhost:3000/transcriptions", {
             method: 'POST',

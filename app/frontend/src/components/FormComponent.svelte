@@ -69,7 +69,7 @@
 
     async function transcribeVideo() {
         isLoading = true;
-        // transcribe
+        transcriptionTextPromise = await fetchTranscription(blob);
         isLoading = false;
         text = text + ' ';
         currentWordIndex = 0;

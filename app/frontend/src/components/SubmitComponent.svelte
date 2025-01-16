@@ -20,7 +20,7 @@
         const formData = new FormData();
 
         if (audioBlob) {
-            formData.append('audio', audioBlob, `recording.wav`);
+            formData.append('file', audioBlob, `file`);
         }
 
         if (text) {
