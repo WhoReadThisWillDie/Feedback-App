@@ -8,9 +8,10 @@
 
     let fileIsAudioOnly;
     let cameraOn = false;
-    let recordedFile;
+    export let recordedFile;
     let url;
     let videoStream;
+    export let isRemoving;
 
     function handleCompletedRecording(event) {
         recordedFile = event.detail.blob;
@@ -61,22 +62,24 @@
     <div class="flex flex-row items-start">
         <RecordingButtons on:recording-complete={handleCompletedRecording} on:mode-change={handleModeChange}/>
     </div>
-
-    {#if recordedFile && recordedFile !== ''}
-        {#if fileIsAudioOnly}
-            <AudioFile url="{url}"></AudioFile>
-        {:else}
-            <div class="flex flex-col w-full max-w-56 ml-2">
-                <video src={url} controls autoplay
-                       class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
-            </div>
-        {/if}
-    {:else if cameraOn}
-        <div class="flex flex-col w-full max-w-56 ml-2">
-            <video id="camera" autoplay muted class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
+    {#key isRemoving}
+        <div class="{isRemoving ? 'scale-out-center' : 'scale-in-center'}">
+            {#if recordedFile && recordedFile !== ''}
+                {#if fileIsAudioOnly}
+                    <AudioFile width="400" url="{url}"></AudioFile>
+                {:else}
+                    <div class="flex flex-col w-full max-w-56 ml-2">
+                        <video src={url} controls autoplay
+                               class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
+                    </div>
+                {/if}
+            {:else if cameraOn}
+                <div class="scale-in-center flex flex-col w-full max-w-56 ml-2">
+                    <video id="camera" autoplay muted class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
+                </div>
+            {/if}
         </div>
-    {/if}
-
+    {/key}
 </div>
 
 <style>
@@ -96,6 +99,35 @@
             opacity: 1;
         }
         50.1%, 100% {
+            opacity: 0;
+        }
+    }
+    .scale-in-center {
+        animation: scale-in-center 1s cubic-bezier(0.25, 1, 0.5, 1) both;
+    }
+
+    .scale-out-center {
+        animation: scale-out-center 1s cubic-bezier(0.25, 1, 0.5, 1) both;
+    }
+
+    @keyframes scale-in-center {
+        0% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes scale-out-center {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(0.8);
             opacity: 0;
         }
     }

@@ -7,6 +7,7 @@
     import SubmitButton from "./SubmitComponent.svelte";
     import ConfirmationComponent from "./ConfirmationComponent.svelte";
     import {createEventDispatcher} from "svelte";
+    import {Icon, Trash} from "svelte-hero-icons";
 
     let audioFile;
     let videoFile;
@@ -17,10 +18,11 @@
     let currentWordIndex = 0;
     let isRemoving = false;
     let toDeleteChoice;
+    export let recorderFile;
 
     const dispatch = createEventDispatcher();
 
-    async function clearAudioAndText() {
+    async function clearFileAndText() {
         console.log(toDeleteChoice);
         if(toDeleteChoice===undefined){
             toDeleteChoice=null;
@@ -30,6 +32,8 @@
             isRemoving = true; // Start reverse animation
             setTimeout(() => {
                 audioFile = null;
+                videoFile = null;
+                recorderFile = null;
                 blob = null;
                 text = "";
                 isRemoving = false; // Reset for future animations
@@ -96,20 +100,30 @@
 />
 <div class="flex flex-row justify-between">
     <div>
-        <RecordComponent on:recording-change={handleRecordingUpdate} on:mode-change={handleModeChange}/>
+        <RecordComponent recordedFile={recorderFile} bind:isRemoving on:recording-change={handleRecordingUpdate} on:mode-change={handleModeChange}/>
     </div>
-    <div class="place-content-center max-h-12">
         {#if audioFile}
-            <div>
-                <Button on:click={transcribeAudio}>Transcribe</Button>
-            </div>
+            {#key isRemoving}
+                <div class="ml-[70px] {isRemoving ? 'scale-out-center' : 'scale-in-center'} flex flex-row space-x-[30px]">
+                    <Button on:click={transcribeAudio}>Transcribe</Button>
+                    <Button on:click={clearFileAndText}
+                            className="!rounded-full !p-0 w-12 h-12 flex items-center justify-center">
+                        <Icon src={Trash} solid class="text-textColor size-8" />
+                    </Button>
+                </div>
+            {/key}
         {:else if videoFile}
-            <div>
-                <Button on:click={transcribeVideo}>Transcribe</Button>
-            </div>
+            {#key isRemoving}
+                <div class="ml-[70px] {isRemoving ? 'scale-out-center' : 'scale-in-center'} flex flex-row space-x-[30px]">
+                    <Button on:click={transcribeVideo}>Transcribe</Button>
+                    <Button on:click={clearFileAndText}
+                            className="!rounded-full !p-0 w-12 h-12 flex items-center justify-center">
+                        <Icon src={Trash} solid class="text-textColor size-8" />
+                    </Button>
+                </div>
+            {/key}
         {/if}
     </div>
-</div>
 <div>
     <SubmitButton audioBlob={blob} text={text} on:submit-feedback={handleFeedbackSubmission}/>
 </div>
@@ -119,7 +133,7 @@
 {/if}
 
 {#if toDeleteChoice===null}
-    <ConfirmationComponent bind:toDeleteChoice {clearAudioAndText}/>
+    <ConfirmationComponent bind:toDeleteChoice {clearFileAndText}/>
 {/if}
 
 <style>

@@ -3,18 +3,17 @@
     import {fade} from 'svelte/transition';
 
     export let toDeleteChoice;
-    export let clearAudioAndText;
-
+    export let clearFileAndText;
 
     async function toDelete(){
         toDeleteChoice = true;
-        clearAudioAndText();
+        clearFileAndText();
         toDeleteChoice=undefined;
     }
 
     async function toLeave(){
         toDeleteChoice = false;
-        clearAudioAndText();
+        clearFileAndText();
         toDeleteChoice=undefined;
     }
 </script>
