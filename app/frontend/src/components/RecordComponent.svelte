@@ -62,7 +62,6 @@
     <div class="flex flex-row items-start">
         <RecordingButtons on:recording-complete={handleCompletedRecording} on:mode-change={handleModeChange}/>
     </div>
-    {#key isRemoving}
         <div class="{isRemoving ? 'scale-out-center' : 'scale-in-center'}">
             {#if recordedFile && recordedFile !== ''}
                 {#if fileIsAudioOnly}
@@ -79,7 +78,6 @@
                 </div>
             {/if}
         </div>
-    {/key}
 </div>
 
 <style>

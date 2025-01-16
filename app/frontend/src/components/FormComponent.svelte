@@ -18,12 +18,11 @@
     let currentWordIndex = 0;
     let isRemoving = false;
     let toDeleteChoice;
-    export let recorderFile;
+    export let recordedFile;
 
     const dispatch = createEventDispatcher();
 
     async function clearFileAndText() {
-        console.log(toDeleteChoice);
         if(toDeleteChoice===undefined){
             toDeleteChoice=null;
             return;
@@ -33,7 +32,7 @@
             setTimeout(() => {
                 audioFile = null;
                 videoFile = null;
-                recorderFile = null;
+                recordedFile = null;
                 blob = null;
                 text = "";
                 isRemoving = false; // Reset for future animations
@@ -100,7 +99,7 @@
 />
 <div class="flex flex-row justify-between">
     <div>
-        <RecordComponent recordedFile={recorderFile} bind:isRemoving on:recording-change={handleRecordingUpdate} on:mode-change={handleModeChange}/>
+        <RecordComponent recordedFile={recordedFile} bind:isRemoving on:recording-change={handleRecordingUpdate} on:mode-change={handleModeChange}/>
     </div>
         {#if audioFile}
             {#key isRemoving}
