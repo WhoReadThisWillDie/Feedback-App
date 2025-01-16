@@ -1,7 +1,6 @@
 <script>
     import RecordingButtons from "./recording/RecordingButtons.svelte";
     import AudioFile from "./AudioFile.svelte";
-    import SubmitButton from "./SubmitComponent.svelte";
     import {createEventDispatcher} from "svelte";
 
     const dispatch = createEventDispatcher();
@@ -18,15 +17,13 @@
         fileIsAudioOnly = event.detail.isAudioOnly;
         url = URL.createObjectURL(recordedFile);
 
-        console.log(recordedFile, 'isAudioOnly: ', fileIsAudioOnly);
-
         dispatch('recording-change', { recordedFile, fileIsAudioOnly });
         stopCamera();
     }
 
     function handleModeChange(event) {
         cameraOn = !event.detail.isAudioOnly;
-        recordedFile = '';
+        recordedFile = null;
         if (cameraOn) {
             startCamera();
         } else {
@@ -56,6 +53,8 @@
             videoStream = null;
         }
     }
+
+    $: console.log(recordedFile)
 </script>
 
 <div class="flex flex-start">

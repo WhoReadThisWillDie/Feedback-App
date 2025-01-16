@@ -99,7 +99,7 @@
 />
 <div class="flex flex-row justify-between">
     <div>
-        <RecordComponent recordedFile={recordedFile} bind:isRemoving on:recording-change={handleRecordingUpdate} on:mode-change={handleModeChange}/>
+        <RecordComponent bind:recordedFile bind:isRemoving on:recording-change={handleRecordingUpdate} on:mode-change={handleModeChange}/>
     </div>
         {#if audioFile}
             {#key isRemoving}
