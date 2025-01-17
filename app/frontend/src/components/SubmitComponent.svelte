@@ -41,7 +41,7 @@
     }
 </script>
 
-<div class="pt-10 transform">
+<div class="transform">
     <Button on:click={exportToDatabase}>Submit</Button>
 </div>
 
