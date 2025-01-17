@@ -3,5 +3,10 @@ export async function fetchFeedbacks() {
         method: 'GET'
     })
 
+    if (!response.ok) {
+        console.error('Failed to fetch feedbacks: ', await response.text());
+        return
+    }
+
     return await response.json()
 }

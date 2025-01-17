@@ -5,22 +5,23 @@
     import {createEventDispatcher} from "svelte";
 
     let showSuccess = false;
-    export let audioBlob;
+    export let blob;
     export let text;
 
     const dispatch = createEventDispatcher();
 
     async function exportToDatabase() {
 
-        if (!audioBlob && !text) {
+        if (!blob && !text) {
             alert("No audio or text specified.")
             return
         }
+        console.log(blob)
 
         const formData = new FormData();
 
-        if (audioBlob) {
-            formData.append('file', audioBlob, `file`);
+        if (blob) {
+            formData.append('file', blob, `file`);
         }
 
         if (text) {
