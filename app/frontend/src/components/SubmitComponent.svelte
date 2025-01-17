@@ -41,7 +41,7 @@
     }
 </script>
 
-<div class="absolute pt-8 left-1/2 transform -translate-x-1/2 z-20">
+<div class="pt-10 transform">
     <Button on:click={exportToDatabase}>Submit</Button>
 </div>
 
