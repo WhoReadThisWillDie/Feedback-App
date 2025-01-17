@@ -16,7 +16,6 @@
             alert("No audio or text specified.")
             return
         }
-        console.log(blob)
 
         const formData = new FormData();
 
