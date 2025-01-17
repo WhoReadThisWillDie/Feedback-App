@@ -5,7 +5,7 @@ export async function postFeedback(formedData) {
     });
 
     if (!response.ok) {
-        console.error('Failed to upload audio file', await response.text());
+        console.error('Failed to upload audio file: ', await response.text());
         return false
     }
 

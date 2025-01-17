@@ -124,7 +124,7 @@
         {/if}
     </div>
 <div>
-    <SubmitButton audioBlob={blob} text={text} on:submit-feedback={handleFeedbackSubmission}/>
+    <SubmitButton blob={blob} text={text} on:submit-feedback={handleFeedbackSubmission}/>
 </div>
 
 {#if isLoading}

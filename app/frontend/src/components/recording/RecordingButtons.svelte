@@ -79,7 +79,6 @@
             mediaRecorder.onstop = () => {
                 const blob = new Blob(recordedChunks, { type: mimeType });
                 recordedUrl = URL.createObjectURL(blob);
-                console.log('Recorded URL:', recordedUrl);
                 dispatch('recording-complete', { blob, isAudioOnly });
             };
 
@@ -98,7 +97,6 @@
             mediaRecorder.pause();
             isPaused = true;
             stopTimer();
-            console.log('Recording paused');
         }
     }
 
@@ -107,7 +105,6 @@
             mediaRecorder.resume();
             isPaused = false;
             startTimer();
-            console.log('Recording resumed');
         }
     }
 

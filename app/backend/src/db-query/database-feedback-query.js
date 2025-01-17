@@ -16,11 +16,11 @@ export async function getAllFeedbacks() {
     return await db.all("SELECT * FROM feedback");
 }
 
-export async function insertFeedback(audioFile, audioFilePath, transcript) {
+export async function insertFeedback(file, fileType, filePath, transcript) {
     const db = await getDb();
     const result = await db.run(
-        "INSERT INTO feedback (file, file_path, transcript) VALUES (?, ?, ?)",
-        [audioFile || null, audioFilePath || null, transcript || null],
+        "INSERT INTO feedback (file, file_type, file_path, transcript) VALUES (?, ?, ?, ?)",
+        [file || null, fileType || null, filePath || null, transcript || null],
     );
     return result.lastID;
 }

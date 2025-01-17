@@ -71,7 +71,7 @@
                     </div>
                 {:else}
                     <div class="flex flex-col w-full max-w-56 ml-2">
-                        <video src={url} controls autoplay class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
+                        <video src={url} controls class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
                     </div>
                 {/if}
             {:else if cameraOn}
