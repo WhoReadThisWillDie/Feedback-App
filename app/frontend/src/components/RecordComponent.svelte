@@ -1,120 +1,115 @@
 <script>
-    import {createEventDispatcher} from 'svelte';
-    import Button from './Button.svelte';
-    import {Icon, Pause, Stop, Microphone} from 'svelte-hero-icons';
-    import SubmitButton from "./SubmitComponent.svelte";
+    import RecordingButtons from "./recording/RecordingButtons.svelte";
+    import AudioFile from "./AudioFile.svelte";
+    import {createEventDispatcher, tick} from "svelte";
 
-    let extension = 'webm';
-    let isRecording = false;
-    let isPaused = false;
-    let gumStream, recorder, chunks = [];
-    let timer = 0;
-    let timerInterval;
-    let audioBlob = null;
     const dispatch = createEventDispatcher();
 
-    if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) {
-        extension = 'webm';
-    } else if (MediaRecorder.isTypeSupported('audio/ogg;codecs=opus')) {
-        extension = 'ogg';
-    } else if (MediaRecorder.isTypeSupported('audio/mpeg')) {
-        extension = 'mp3';
-    } else {
-        console.error('No supported audio MIME types available in this browser.');
-        alert('Your browser does not support audio recording.');
+    let fileIsAudioOnly = true;
+    let cameraOn = false;
+    let url;
+    let videoStream;
+    export let isRemoving;
+    export let recordedFile;
+
+    function handleCompletedRecording(event) {
+        recordedFile = event.detail.blob;
+        fileIsAudioOnly = event.detail.isAudioOnly;
+        url = URL.createObjectURL(recordedFile);
+
+        dispatch('recording-change', { recordedFile, fileIsAudioOnly });
+        stopCamera();
     }
 
-    async function toggleRecording() {
-        if (!isRecording) {
-            startRecording();
-        } else if (recorder && recorder.state === 'recording') {
-            pauseRecording();
-        } else if (recorder && recorder.state === 'paused') {
-            resumeRecording();
+    function handleModeChange(event) {
+        cameraOn = !event.detail.isAudioOnly;
+        fileIsAudioOnly = event.detail.isAudioOnly;
+        recordedFile = null;
+        dispatch('mode-change');
+    }
+
+    async function startCamera() {
+        try {
+            videoStream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
+            const videoElement = document.querySelector('#camera');
+            if (videoElement) {
+                videoElement.srcObject = videoStream;
+                await videoElement.play();
+            }
+        } catch (err) {
+            console.error('Error accessing camera:', err);
+            alert('Failed to access the camera. Please check your permissions.');
         }
     }
 
-    function startRecording() {
-        let constraints = {audio: true};
-
-        navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-            gumStream = stream;
-            chunks = [];
-            recorder = new MediaRecorder(stream, {mimeType: `audio/${extension}`});
-
-            recorder.ondataavailable = (e) => {
-                chunks.push(e.data);
-                if (recorder.state === 'inactive') {
-                    audioBlob = new Blob(chunks, {type: `audio/${extension}`});
-                    dispatch('recording-change', {audioBlob});
-                }
-            };
-
-            recorder.start();
-            isRecording = true;
-            isPaused = false;
-
-            startTimer();
-        }).catch((err) => {
-            console.error('Microphone access denied or not supported:', err);
-        });
-    }
-
-    function pauseRecording() {
-        if (recorder && recorder.state === 'recording') {
-            recorder.pause();
-            isPaused = true;
-            clearInterval(timerInterval);
+    function stopCamera() {
+        if (videoStream) {
+            const tracks = videoStream.getTracks();
+            tracks.forEach((track) => track.stop());
+            videoStream = null;
         }
     }
 
-    function resumeRecording() {
-        if (recorder && recorder.state === 'paused') {
-            recorder.resume();
-            isPaused = false;
-            startTimer();
-        }
+    $: if (!recordedFile && !fileIsAudioOnly) {
+        startCamera()
     }
 
-    function stopRecording() {
-        if (recorder && recorder.state !== 'inactive') {
-            recorder.onstop = () => {
-                audioBlob = new Blob(chunks, {type: `audio/${extension}`});
-                if (audioBlob.size === 0) {
-                    console.error("Blob is empty. Check if recording chunks were captured.");
-                    return;
-                }
-                dispatch('recording-change', {audioBlob});
-            };
-
-            recorder.stop();
-            gumStream.getAudioTracks()[0].stop();
-        }
-        isRecording = false;
-        isPaused = false;
-
-        clearInterval(timerInterval);
-        timer = 0;
-    }
-
-    function startTimer() {
-        timerInterval = setInterval(() => {
-            timer++;
-        }, 1000);
+    $: if (fileIsAudioOnly) {
+        stopCamera()
     }
 </script>
 
-<div class="flex flex-row items-center">
-    <Button
-            className="!rounded-full !p-0 w-12 h-12 flex items-center justify-center"
-            on:click={toggleRecording}
-    >
-        <Icon src={!isRecording ? Microphone : isPaused ? Microphone : Pause} solid class="text-textColor size-8"/>
-    </Button>
-    <Button
-            className="!rounded-full !p-0 ml-2 w-12 h-12 flex items-center justify-center"
-            disabled={!isRecording && chunks.length === 0} on:click={stopRecording}
-    >
-        <Icon src="{Stop}" solid class="text-textColor size-8"/>
-    </Button>
+<div class="flex flex-col space-y-6">
+    <div class="flex justify-center">
+        <RecordingButtons on:recording-complete={handleCompletedRecording} on:mode-change={handleModeChange}/>
+    </div>
+        <div class="{isRemoving ? 'scale-out-center' : 'scale-in-center'}">
+            {#if recordedFile}
+                {#if fileIsAudioOnly}
+                    <div class="scale-in-center">
+                        <AudioFile width="250" url="{url}"></AudioFile>
+                    </div>
+                {:else}
+                    <div class="flex flex-col w-full max-w-56 ml-2">
+                        <video src={url} controls class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
+                    </div>
+                {/if}
+            {:else if cameraOn}
+                <div class="scale-in-center flex flex-col w-full max-w-56 ml-2">
+                    <video id="camera" autoplay muted class="w-full h-auto border-solid border-gray-50 rounded-md"></video>
+                </div>
+            {/if}
+        </div>
 </div>
+
+<style>
+    .scale-in-center {
+        animation: scale-in-center 1s cubic-bezier(0.25, 1, 0.5, 1) both;
+    }
+
+    .scale-out-center {
+        animation: scale-out-center 1s cubic-bezier(0.25, 1, 0.5, 1) both;
+    }
+
+    @keyframes scale-in-center {
+        0% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes scale-out-center {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+    }
+</style>

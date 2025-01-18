@@ -10,57 +10,17 @@ async function getDb() {
     return db;
 }
 
-// Select all feedback entries
-export async function getAllFeedback() {
+// Select all feedback_audio entries
+export async function getAllFeedbacks() {
     const db = await getDb();
     return await db.all("SELECT * FROM feedback");
 }
 
-// Select feedback by ID
-export async function getFeedbackById(id) {
+export async function insertFeedback(file, fileType, filePath, transcript) {
     const db = await getDb();
-    return await db.get("SELECT * FROM feedback WHERE id = ?", [id]);
-}
-
-export async function getAudioById(id) {
-    const db = await getDb();
-    return await db.get("SELECT audio_file_path FROM feedback WHERE id = ?", [id]);
-}
-
-// Insert new feedback
-// export async function addFeedback(audioFilePath, transcript) {
-//     const db = await getDb();
-//     const result = await db.run(
-//         "INSERT INTO feedback (audio_file_path, transcript) VALUES (?, ?)",
-//         [audioFilePath, transcript]
-//     );
-//     return result.lastID;
-// }
-
-export async function insertFeedback(audioFilePath, transcript) {
-    const db = await getDb();
-    console.log(audioFilePath);
-    console.log(transcript);
     const result = await db.run(
-        "INSERT INTO feedback (audio_file_path, transcript) VALUES (?, ?)",
-        [audioFilePath || null, transcript || null],
+        "INSERT INTO feedback (file, file_type, file_path, transcript) VALUES (?, ?, ?, ?)",
+        [file || null, fileType || null, filePath || null, transcript || null],
     );
     return result.lastID;
-}
-
-// Update feedback by ID
-export async function updateFeedback(id, audioFilePath, transcript) {
-    const db = await getDb();
-    const result = await db.run(
-        "UPDATE feedback SET audio_file_path = ?, transcript = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
-        [audioFilePath, transcript, id]
-    );
-    return result.changes > 0;
-}
-
-// Delete feedback by ID
-export async function deleteFeedback(id) {
-    const db = await getDb();
-    const result = await db.run("DELETE FROM feedback WHERE id = ?", [id]);
-    return result.changes > 0;
 }

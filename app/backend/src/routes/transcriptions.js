@@ -4,6 +4,6 @@ import {upload} from "../middleware/multer.js";
 
 const router = express.Router();
 
-router.post("/", upload.single('audio'), transcriptionController.postTranscription);
+router.post("/", upload.single('file'), transcriptionController.postTranscription);
 
 export default router;

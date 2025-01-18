@@ -1,6 +1,8 @@
 CREATE TABLE feedback (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    audio_file_path TEXT,
+    file BLOB,
+    file_type TEXT check(file_type in ('audio', 'video')),
+    file_path TEXT,
     transcript TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
