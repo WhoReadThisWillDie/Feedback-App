@@ -211,10 +211,6 @@ This sequence diagram shows all the sequence diagrams together, representing how
 
 ## 4. System Architecture
 
-
-
-### Basic Architecture with Logical Components
-
 ### Deploy and Component Diagram
 
 ![Deploy and component diagram](../docs/resources/deploy_and_component_diagram.png)
