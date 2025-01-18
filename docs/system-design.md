@@ -314,27 +314,91 @@ The purpose of the user interface, is to record audio feedback and to view a tra
 ### Visual design
 
 **Colors**: Scorion provided us with their style guide, which contained the colors they commonly use in their Scorion platform:
-![Scorions color palette](resources/ScorionColorPalette.png)
+![Scorions color palette](resources/scorion_color_palette.png)
 
-- ![Background color](resources/BackgroundColor.png) The color used for the background.
-- ![Font color](./resources/FontColor.png) The color used for any text (outside from buttons).
+- ![Background color](resources/background_color.png) The color used for the background.
+- ![Font color](./resources/font_color.png) The color used for any text (outside from buttons).
 
 **Fonts**: The specified font to use in the style guide is Roboto.
 
 ### Design
-The client wants us to design a feedback form, which has a text field, a recording function and a transcribing function. From what we've seen of the client's platform, we designed the following mockups for how the user would interact with the platform to record their audio:
 
-**Screen 1**: This is the first state of the component. An empty text form, with some buttons in the bottom. When the first button is pressed (the button with the microphone icon) the application starts recording the user's audio from their microphone. And we go to screen 2.
-![User interface screen 1](./resources/Frame1.png)
+For this project, the client wants us to develop a feedback form with the following functionalities:
 
-**Screen 2**: The first button's icon changes to a pause icon. The user can now either click on the pause button, which pauses the recording (which also changes the icon back to the microphone icon), and click it again to resume recording. Or the stop button (the second button), which stops recording and creates an audio file component (screen 3).
-![User interface screen 2](./resources/Frame2.png)
+1. Recording feedback in the form of audio.
+2. Recording feedback in the form of video.
+3. Transcribing audio files to text.
+4. Transcribing video files to text.
+5. Saving feedback to a database.
+6. View the saved feedback in a list from the database.
 
-**Screen 3**: When the stop button is pressed, an audio file gets displayed and can be played. When clicking the transcript button, the audio file gets send to the back end to be transcribed, when the file is transcribed we get to screen 4.
-![User interface screen 3](./resources/Frame3.png)
+The front-end consists of one page, since we were only assigned to develop a component to an already existing file component. From what we have seen of the client’s already existing software and the requirements we were given, the following mock-ups were designed:
 
-**Screen 4**: The transcribed text appears in the text box. When the submit button is clicked, the feedback (audio file and transcription) is sent to the backend to be saved in the database.
-![User interface screen 4](./resources/Frame4.png)
+#### Starting screen
+In the current state of this mock-up, the recording method is set to audio recording, as you can see by the microphone icon in the recording button. The buttons do the following when clicked:
+
+- *Switch recording mode button (switch to video)*: When this button is clicked, the button with the microphone icon changes into a button with a video camera button on it. This switches the recording method of the application from audio recording to video recording.
+- *Recording button (microphone button)*: When this button is clicked, the application starts recording an audio recording through the users microphone and the icon of the microphone changes to a pause icon.
+- *Stop recording button*: This button is disabled in this state of the application, as there is no recording happening at the moment.
+- *Submit button*: In this state of the application, when the button is pressed, the user will get a pop-up telling the user that there is no feedback to be saved, as there is no recording file nor text feedback in the text field.
+
+In the text field, the user can type feedback which can be submitted on it’s own. On the bottom of the page, there is a collapsed feedback list which, when clicked, shows all the saved feedback to the user.
+
+![Beginning screen](../docs/resources/beginning_screen.png)
+
+#### Switched to video recording and the feedback list
+In this mock-up the user has clicked 2 things from the previous mock-up. The user clicked on the *switch recording button* which changed its text from ‘Switch to video’ to ‘Switch to audio’ and the icon in the *recording button* changed into a video camera. This also makes a screen displaying the users camera pop up, which is not recording yet.
+
+Now when the *recording button* is clicked, the application starts recording a video from the user's camera.
+
+![Feedback list and video recording switch](../docs/resources/feedback_list_and_video_recording_switch.png)
+
+#### Recording audio file
+When in the first mock-up frame, the user clicks the *recording button (microphone)*, the application starts recording an audio recording using the users microphone. The *recording button* now changes it’s icon from a *microphone* to the *pause* symbol which you can see in the mock-up below.
+
+There is also a timer with a blinking dot that appears when the microphone starts recording the users audio, to indicate how long the user has been recording.
+
+The buttons in this mock-up do the following:
+
+- *Switch recording mode button (Switch to video)*: Since the application is currently recording audio, it is not possible to switch to video recording. When this button is clicked, a pop-up tells the user ‘Stop the current recording before switching modes’.
+- *Recording button (pause)*: When the user clicks this button, the application pauses the recording, until the button is clicked again (then it resumes the recording) or the user clicks the *stop recording button*.
+- *Stop recording button*: When the user clicks this button, the recording immediately stops and an audio file is created and displayed in an audio player.
+- *Submit button*: Since there is no feedback created yet, there is nothing to submit and when clicked, the user gets a pop-up that says that there is no feedback to be saved.
+
+![Audio recording started](../docs/resources/audio_recording_started.png)
+
+#### Completed audio file
+The user reaches this state of the application when they were recording their audio and clicked on the *stop recording button* somewhere in the process. This causes to the recording to stop and an audio file to be created.
+
+The audio file appears together with a new button (*transcribe button*). The audio file is playable so the user can listen to the recording.
+
+The buttons do the following:
+
+- *Switch recording mode (Switch to video)*: When the recording mode gets switched, the current recording file gets deleted, so when the button is clicked, the user gets a pop-up that asks them whether they are sure that they want to overwrite the current recording file. If they click ‘yes’, the recording mode gets switched and if they click ‘no’ nothing changes.
+- *Recording button (microphone)*: When this button is clicked, the same thing happens as when the *switch recording mode button* is clicked. The user gets a pop-up that asks them whether they are sure that they want to overwrite the current recording file. If they click ‘yes’, a new recording is started and if they click ‘no’ nothing changes.
+- *Transcribe button*: When the button is clicked, the application starts transcribing the audio file and a loading animation shows up. When the transcription is done, it shows up in the text field.
+- *Submit button*: When the button is clicked, the audio file (and text if it is there) get submitted to the database and will show up in the feedback list on the bottom of the screen.
+
+![Audio recording finished](../docs/resources/audio_recording_finished.png)
+
+#### Audio file is transcribed
+When the transcribe button is pressed in the last mock-up. The application starts transcribing the audio file and when it is done, the transcription appears in the text input field. If there already was text in the text field, the transcription is added onto it. The transcription is also editable before submitting.
+
+![Audio file transcribed](../docs/resources/audio_file_transcribed.png)
+
+#### Completed video file
+The user reaches this state of the application when they were recording their video and clicked on the *stop recording button* somewhere in the process. This causes to the recording to stop and a video file to be created.
+
+The video file appears together with a new button (*transcribe button*). The video file is playable so the user can watch their recording.
+
+The buttons do the following:
+
+- *Switch recording mode (Switch to audio)*: When the recording mode gets switched, the current recording file gets deleted, so when the button is clicked, the user gets a pop-up that asks them whether they are sure that they want to overwrite the current recording file. If they click ‘yes’, the recording mode gets switched and if they click ‘no’ nothing changes.
+- *Recording button (video camera)*: When this button is clicked, the same thing happens as when the *switch recording mode button* is clicked. The user gets a pop-up that asks them whether they are sure that they want to overwrite the current recording file. If they click ‘yes’, a new recording is started and if they click ‘no’ nothing changes.
+- *Transcribe button*: When the button is clicked, the application starts transcribing the video file and a loading animation shows up. When the transcription is done, it shows up in the text field.
+- *Submit button*: When the button is clicked, the video file (and text if it is there) is submitted to the database and will show up in the feedback list on the bottom of the screen.
+
+![Video recording finished](../docs/resources/video_recording_finished.png)
 
 ### Software Design
 
@@ -345,8 +409,6 @@ The [RecordButton](../app/frontend/src/components/RecordComponent.svelte) compon
 When pressing the start button, the application starts recording the users audio from the user's microphone. While in the progress of recording, it is possible to pause and resume (using the same button as when you start recording). When the user is finished recording their audio, they can click the stop button, which exports the audio file to a parent component ([AudioRecordComponent.svelte](../app/frontend/src/components/FormComponent.svelte)).
 
 The AudioRecordComponent receives the audio file and then proceeds to export it to a child component ([AudioFile.svelte](../app/frontend/src/components/AudioFile.svelte)). This component then allows the audio file to be played by the user.
-
-### Security Design
 
 ---
 
