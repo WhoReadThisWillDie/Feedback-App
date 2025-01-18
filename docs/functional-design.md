@@ -126,14 +126,75 @@ The vision is to enhance the existing platform by enabling users to record voice
 ---
 
 ### Mockups and Wireframes (Low-Fidelity)
-1. **Assignment List View:** When entering the application the user should be able to see a list of finished assignments which are expecting feedback.
-    ![First screen](../docs/resources/Screen1.png)
-2. **Recording Interface:** The user should be able to choose an assignment, then, by choosing  the option “Record sound clip as feedback”  they are going to be able to access the functionality we will be providing.
-    ![Second screen](../docs/resources/Screen2.png)
-3. **Playback and Edit:** Furthermore, the user should press the “record” button  and record their sound clip as feedback.
-    ![Third screen](../docs/resources/Screen3.png)
-4. **Submission Confirmation:** After the recording is done the user should be able to see what has been said in text format and should be able to play the recording. If everything is correct the user can submit the feedback by pressing the “Submit” button. If that is not the case the user can also delete the recorded audio by pressing the “trash icon” button and start again.
-    ![Fourth screen](../docs/resources/Screen4.png)
+
+#### 1. Starting screen
+
+![Beginning screen](../docs/resources/beginning_screen.png)
+
+#### 2. Switched to video recording and the feedback list
+
+![Feedback list and video recording switch](../docs/resources/feedback_list_and_video_recording_switch.png)
+
+#### 3. Recording audio file
+
+![Audio recording started](../docs/resources/audio_recording_started.png)
+
+#### 4. Completed audio file
+
+![Audio recording finished](../docs/resources/audio_recording_finished.png)
+
+#### 5. Audio file is transcribed
+
+![Audio file transcribed](../docs/resources/audio_file_transcribed.png)
+
+#### 6. Completed video file
+
+![Video recording finished](../docs/resources/video_recording_finished.png)
+
+### Sequence Diagrams
+
+#### 1. Recording feedback
+
+![Sequence diagram recording feedback](../docs/resources/sequence_diagram_recording.png)
+
+This sequence diagram shows how the action of the user recording either their audio or video works. It also shows that the user can pause the recording and resume it later.
+
+The wireframes that represent this diagram are the following:
+
+- 1 Beginning screen
+- 3 Recording audio file
+- 4 Completed audio file
+- 6 Completed video file
+
+#### 2. Transcribing recording file
+![Sequence diagram transcribing recording](../docs/resources/sequence_diagram_transcribing_recording.png)
+
+This sequence diagram shows how the action of the user clicking the transcribe button to transcribe a recording file works.
+
+The wireframes that represent this diagram are the following:
+
+- 4 Completed audio file (start)
+- 5 Audio file is transcribed
+
+The application can transcribe both audio and video files.
+
+#### 3. Submitting feedback
+
+![Sequence diagram submitting feedback](../docs/resources/sequence_diagram_submitting_feedback.png)
+
+This sequence diagram shows how the action of the user clicking the submit button works.
+
+The wireframes that represent this diagram are the following:
+
+- 5 Audio file is transcribed
+- 6 Completed video file
+- 2 Switched to video recording and the feedback list (feedback shows up in the feedback list)
+
+#### Complete sequence diagram
+
+![Complete sequence diagram](../docs/resources/sequence_diagram_complete.png)
+
+This sequence diagram shows all the sequence diagrams together, representing how a user could fill in the feedback form and submit it.
 
 ---
 
@@ -142,6 +203,8 @@ The vision is to enhance the existing platform by enabling users to record voice
 ### Basic Architecture with Logical Components
 
 ### Deploy and Component Diagram
+
+![Deploy and component diagram](../docs/resources/deploy_and_component_diagram.png)
 
 ---
 

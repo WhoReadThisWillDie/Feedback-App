@@ -309,7 +309,7 @@ As Scorion is used globally, **TIMESTAMP** is a better choice because it automat
 
 ## User Interface Design
 
-The purpose of the user interface, is to record audio feedback and to view a transcription of said audio feedback. The user should also be able to edit the text after it appears as the transcribed audio file.
+The purpose of the user interface, is to record audio and video feedback and to view a transcription of said feedback. The user should also be able to edit the text after it appears as the transcribed audio file.
 
 ### Visual design
 
