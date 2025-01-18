@@ -157,7 +157,7 @@ The vision is to enhance the existing platform by enabling users to record voice
 
 The user has three options for submitting feedback. Recording audio, video or just typing out their feedback. 
 After they record an audio or video, they can transcribe the recording, which will be shown to the user. 
-Afterward, they can submit it which will be sent to the backend/database. The user then can view the feedback they submitted, 
+Afterward, they can submit it which will be sent to the backend/database, along with the transcription. The user then can view the feedback they submitted, 
 which will be pulled from the backend/database to be shown to the user.
 
 ----
