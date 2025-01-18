@@ -45,17 +45,14 @@
 
 ## Functional Specs coverage
 
-| **Feature** | **User Story** | **Priority** | **Source** | **Complete** |
-|-------------|----------------|--------------|------------|--------------|
-| **U1**      | As a user, I want to be able to record feedback in the form of audio, in order to improve the effectiveness of communication by capturing intonation and the tone of the feedback. | Must         | Assignment Description & Client | Yes           |
-| **U2**      | As a user, I want my audio feedback to be saved, so that it can be accessed later. | Must         | Assignment Description & Client | Yes           |
-| **U3**      | As a user, I want the text transcription to be saved along with the recording, so that both can be referenced together. | Must         | Assignment Description & Client | Yes           |
-| **U4**      | As a user, I want reliable speech-to-text functionality to automatically transcribe my audio feedback into text, so that I don't have to type out my feedback manually. | Must         | Assignment Description & Client | Yes           |
-| **U5**      | As a user, I want to be able to pause and resume the recording, so that I can make sure that the audio recording is not bothered by external sources. | Must         | Assignment Description & Client | Yes           |
-| **U6**      | As a user, I want the audio recording and text feedback to be protected and kept within the system, because the data I send is confidential. | Must         | Assignment Description & Client | Yes           |
-| **U7**      | (Story not provided) | Must         | Client                                   | Yes           |
-| **U8**      | As a user, I want the speech-to-text input to be multilingual so that it can support multiple languages and increase the accessibility. | Should       | Client                                   | No           |
-| **U9**      | As a user, I want to be able to record a video file to provide feedback, so that I can show my expressions better. | Should       | Client                                   | Yes          |
-| **U10**     | As a project team member, I want to provide well-researched advice on implementing video feedback, so that the client can evaluate its feasibility for future development. | Could        | Assignment Description                | Yes           |
+| **Feature** | **User Story** | **Priority** | **Source**                      | **Complete** |
+|-------------|----------------|--------------|---------------------------------|--------------|
+| **U1**      | As any user, I want to record feedback in the form of audio, with the ability to pause and resume the recording, so that I can improve communication, ensure external interruptions do not affect the recording, and save it for future analysis. | Must         | Assignment Description & Client | Yes          |
+| **U2**      | As any user, I want reliable speech-to-text functionality to automatically transcribe my audio feedback into text and save the transcription along with the recording, so that I can access both formats for better usability and analysis.  | Must         | Assignment Description & Client | Yes          |
+| **U3**      | As any user, I want the audio recording and text feedback to be protected and kept within the system, because the data I send is confidential. | Must         | Assignment Description & Client | Yes          |
+| **U4**      | As a student, I want to access the audio feedback and its transcription provided by my teacher and/or fellow students, so that I can review the feedback in both audio and text format. | Must         | Assignment Description & Client | Yes          |
+| **U5**      | As any user, I want the speech-to-text input to be multilingual so that it can support multiple languages and increase the accessibility. | Must         | Assignment Description & Client | No           |
+| **U6**      | As any user, I want to be able to record a video file to provide feedback, so that I can show my expressions better. | Must         | Assignment Description & Client | Yes          |
+| **U7**      | As a project team member, I want to provide well-researched advice on implementing video feedback, so that the client can evaluate its feasibility for future development.    | Should       | Assignment Description & Client | Yes          |
 
-**Total coverage: 90%**
+**Total coverage: 85%**
