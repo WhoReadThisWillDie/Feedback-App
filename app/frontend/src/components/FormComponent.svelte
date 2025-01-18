@@ -95,36 +95,42 @@
         transition:fade
         bind:value={text}
         placeholder="Type here..."
-        class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-[128px] border-gray-150 border-2 focus:outline-none md:min-h-[150px] lg:min-h-[150px]"
+        class="text-textColor w-full p-2 bg-white rounded-lg resize-none min-h-[128px] border-gray-150 border-2 focus:outline-none md:min-h-[100px] lg:min-h-[120px]"
 />
-<div class="flex flex-row justify-between">
-    <div>
+<div class="flex flex-col space-y-6">
+    <div class="flex justify-center">
         <RecordComponent bind:recordedFile bind:isRemoving on:recording-change={handleRecordingUpdate} on:mode-change={handleModeChange}/>
     </div>
         {#if audioFile}
             {#key isRemoving}
-                <div class="ml-[70px] {isRemoving ? 'scale-out-center' : 'scale-in-center'} flex flex-row space-x-[30px]">
-                    <Button on:click={transcribeAudio}>Transcribe</Button>
-                    <Button on:click={clearFileAndText}
-                            className="!rounded-full !p-0 w-12 h-12 flex items-center justify-center">
-                        <Icon src={Trash} solid class="text-textColor size-8" />
-                    </Button>
+                <div class="flex justify-center">
+                <div class="{isRemoving ? 'scale-out-center' : 'scale-in-center'} flex flex-row space-x-[10px]">
+                        <Button on:click={transcribeAudio}>Transcribe</Button>
+                        <Button on:click={clearFileAndText}
+                                className="!rounded-full !p-0 w-12 h-12 flex items-center justify-center bg-red-500 text-white">
+                            <Icon src={Trash} solid class="text-textColor size-8" />
+                        </Button>
+                    </div>
                 </div>
             {/key}
         {:else if videoFile}
             {#key isRemoving}
-                <div class="ml-[70px] {isRemoving ? 'scale-out-center' : 'scale-in-center'} flex flex-row space-x-[30px]">
+                <div class="flex justify-center">
+                <div class="{isRemoving ? 'scale-out-center' : 'scale-in-center'} flex flex-row space-x-[10px]">
                     <Button on:click={transcribeVideo}>Transcribe</Button>
                     <Button on:click={clearFileAndText}
-                            className="!rounded-full !p-0 w-12 h-12 flex items-center justify-center">
+                            className="!rounded-full !p-0 w-12 h-12 flex items-center justify-center bg-red-500 text-white">
                         <Icon src={Trash} solid class="text-textColor size-8" />
                     </Button>
+                </div>
                 </div>
             {/key}
         {/if}
     </div>
 <div>
+    <div class="flex justify-center left-1/2">
     <SubmitButton blob={blob} text={text} on:submit-feedback={handleFeedbackSubmission}/>
+    </div>
 </div>
 
 {#if isLoading}

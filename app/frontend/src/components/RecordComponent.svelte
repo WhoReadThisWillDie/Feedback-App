@@ -59,15 +59,15 @@
     }
 </script>
 
-<div class="flex flex-start">
-    <div class="flex flex-row items-start">
+<div class="flex flex-col space-y-6">
+    <div class="flex justify-center">
         <RecordingButtons on:recording-complete={handleCompletedRecording} on:mode-change={handleModeChange}/>
     </div>
         <div class="{isRemoving ? 'scale-out-center' : 'scale-in-center'}">
             {#if recordedFile}
                 {#if fileIsAudioOnly}
                     <div class="scale-in-center">
-                        <AudioFile width="400" url="{url}"></AudioFile>
+                        <AudioFile width="250" url="{url}"></AudioFile>
                     </div>
                 {:else}
                     <div class="flex flex-col w-full max-w-56 ml-2">

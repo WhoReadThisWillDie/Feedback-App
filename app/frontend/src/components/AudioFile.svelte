@@ -53,7 +53,7 @@
     }
 </script>
 
-<div class="ml-2 w-[400px]">
+<div class="ml-2 w-[270px]">
     <audio bind:this={audioElement} src={url} on:timeupdate={onTimeUpdate} on:loadedmetadata={onLoadedMetadata}></audio>
     <div class="flex items-center gap-2 p-4 rounded-full gradient-before gradient-border h-12 text-textColor">
         <Button className="!rounded-full !p-0 w-9 h-9 flex items-center justify-center" on:click={togglePlay}>
