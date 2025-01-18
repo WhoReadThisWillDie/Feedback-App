@@ -206,6 +206,19 @@ This sequence diagram shows all the sequence diagrams together, representing how
 
 ![Deploy and component diagram](../docs/resources/deploy_and_component_diagram.png)
 
+In this diagram, there are 4 nodes with each a component within them.
+
+- **User device:** The user device is the machine on which the user uses the application. They can access the application with their *web browser*.
+- **Front-end server:** The front-end of the application is hosted on a *Vite web server* and the front-end is written in *Svelte and JavaScript*.
+- **Back-end server:** The back-end of the application is hosted on an *ExpressJS server* and is written in JavaScript, which *ExpressJS* already implies.
+- **Database server:** The database the application is using is an *SQLite database*.
+
+For the components within the diagram, they are connected in the following ways:
+
+- The web browser and Vite web server are connected by *HTTP*.
+- The Vite web server and ExpressJS server are connected by *HTTP and REST*.
+- The ExpressJS server and the SQLite database are connected by *SQL*.
+
 ---
 
 ## 5. Change Log
