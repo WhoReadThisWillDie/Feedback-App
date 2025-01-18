@@ -77,3 +77,5 @@ Blockers: No
 ### Mihaela:
 What I did: Going to do video design today
 Blockers: No
+
+---
