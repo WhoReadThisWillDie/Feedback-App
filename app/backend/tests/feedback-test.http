@@ -1,0 +1,12 @@
+GET http://localhost:3000/feedbacks
+Content-Type: application/json
+
+> {%
+client.test("Response status is 200", function () {
+client.assert(response.status === 200, "Expected status 200, got " + response.status);
+});
+
+client.test("Response is an array", function () {
+client.assert(Array.isArray(response.body), "Response should be an array");
+});
+%}

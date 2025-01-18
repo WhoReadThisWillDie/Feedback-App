@@ -56,3 +56,36 @@
 | **U7**      | As a project team member, I want to provide well-researched advice on implementing video feedback, so that the client can evaluate its feasibility for future development.    | Should       | Assignment Description & Client | Yes          |
 
 **Total coverage: 85%**
+
+## Traceability Matrix
+
+| Type                | Requirement                                                                                                                   | Priority | Source  |  
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------|----------|---------|  
+| (R001) Availability | As a user I want to be able to provide a feedback without dependence on my device OS.                                       | Must     | Client  |  
+| (R002) Performance  | As a user I want the transcription to go smoothly without service being frozen.                                               | Should   | Client  |  
+| (R003) Robustness   | As a user I want a reliability of the service when the transcription is going, so no data will be lost.                       | Must     | Client  |  
+| (R004) Security     | As a user I want my data to be secured so third party APIs won’t  access it.                                                  | Should   | Client  |  
+| (R005) UX           | As a user I want service to be smooth and designed appropriately to the design standards of the already existing style guide. | Should   | Client  |  
+| (R006) Usability    | As a user I want service to be intuitively understandable with all the functionality displayed.                               | Should   | Client  |   |
+
+
+| **Test Case ID** | **R001** | **R002** | **R003** | **R004** | **R005** | **R006** |
+|------------------|----------|----------|----------|----------|----------|----------|
+| TC001           | X        |          |          |          | X        | X        |
+| TC002           |          |          |          |          | X        | X        |
+| TC003           |          |          |          |          | X        | X        |
+| TC004           |          |          |          |          | X        | X        |
+| TC005           |          |          |          |          | X        | X        |
+| TC006           |          |          |          |          | X        | X        |
+| TC007           |          |          |          |          | X        | X        |
+| TC008           |          |          |          |          | X        | X        |
+| TC009           |          | X        | X        |          | X        | X        |
+| TC010           |          |          |          |          | X        | X        |
+| TC011           |          | X        | X        | X        | X        | X        |
+| TC012           |          |          | X        |          | X        | X        |
+| TC013           | X        |          |          |          | X        | X        |
+
+## Automatic Testing Justification
+Automatic testing in the backend only tests for one endpoint because the other endpoints rely on recorded data. 
+The [recordings](../app/backend/recordings) folder is labeled as git ignore, meaning that the submitted repository has no data to begin with, hence there is no data to be
+tested on.
