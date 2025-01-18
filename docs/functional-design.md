@@ -151,6 +151,17 @@ The vision is to enhance the existing platform by enabling users to record voice
 
 ![Video recording finished](../docs/resources/video_recording_finished.png)
 
+### Basic Use Case Diagram
+
+![Basic Use Case Diagram](../docs/resources/use_case_diagram.png)
+
+The user has three options for submitting feedback. Recording audio, video or just typing out their feedback. 
+After they record an audio or video, they can transcribe the recording, which will be shown to the user. 
+Afterward, they can submit it which will be sent to the backend/database. The user then can view the feedback they submitted, 
+which will be pulled from the backend/database to be shown to the user.
+
+----
+
 ### Sequence Diagrams
 
 #### 1. Recording feedback
@@ -199,6 +210,8 @@ This sequence diagram shows all the sequence diagrams together, representing how
 ---
 
 ## 4. System Architecture
+
+
 
 ### Basic Architecture with Logical Components
 
