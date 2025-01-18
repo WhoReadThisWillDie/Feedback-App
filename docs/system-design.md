@@ -291,15 +291,17 @@ The performance of the system is determined by its ability to efficiently handle
 
 ### Database Design
 
-![Database Design](../docs/resources/database_design.jpg)
+![Database Design](../docs/resources/final_database.jpg)
 
-| Attributes           | Description                                                                                     |
-|----------------------|---------------------------------------------------------------------------------|
-| `feedback_id`        | Primary Key (auto incrementing integer)                                                         |
-| `audio_file_path`    | Location of the audio file in the system in the format of a file path (String)                  |
-| `transcription_text` | Transcribed text from the audio (String)                                                      |
-| `date_created`       | Date of when the feedback was created (TIMESTAMP)                                               |
-| `date_updated`       | Date of when the feedback was updated (TIMESTAMP)                                               |
+| Attributes    | Description                                                              |
+|---------------|--------------------------------------------------------------------------|
+| `id`          | Primary Key (auto incrementing integer)                                  |
+| `media_type`  | Type of file that is saved (audio or video) (String)                     |
+| `file`        | Audio or video file (BLOB)                                               |
+| `file_path`   | Location of the file in the system in the format of a file path (String) |
+| `transcripti` | Transcribed text from the file (String)                                     |
+| `created_at`  | Date of when the feedback was created (TIMESTAMP)                        |
+| `updated_at`  | Date of when the feedback was updated (TIMESTAMP)                        |
 
 ---
 
