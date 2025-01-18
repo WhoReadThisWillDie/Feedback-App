@@ -402,13 +402,9 @@ The buttons do the following:
 
 ### Software Design
 
-#### Audio recording functionality
+#### Recording functionality
 
-The [RecordButton](../app/frontend/src/components/RecordComponent.svelte) component consists out of 3 buttons, a microphone/pause button, a stop button, and a submit button.
-
-When pressing the start button, the application starts recording the users audio from the user's microphone. While in the progress of recording, it is possible to pause and resume (using the same button as when you start recording). When the user is finished recording their audio, they can click the stop button, which exports the audio file to a parent component ([AudioRecordComponent.svelte](../app/frontend/src/components/FormComponent.svelte)).
-
-The AudioRecordComponent receives the audio file and then proceeds to export it to a child component ([AudioFile.svelte](../app/frontend/src/components/AudioFile.svelte)). This component then allows the audio file to be played by the user.
+Both the video and audio recording functionality use the MediaStream Recording API.
 
 ---
 
