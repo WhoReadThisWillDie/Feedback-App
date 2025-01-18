@@ -51,8 +51,9 @@ The new system includes several key components that will work together, allowing
 
 - **Frontend**: The user interface is developed using JavaScript, Svelte, HTML, and CSS to provide users with a convenient and responsive interface that aligns with Scorion’s design choices.
 - **Backend**: The server, built with Express.js, handles data load and is integrated with the frontend. The backend server also ensures that the data is processed within the application and that no information is shared with third parties.
-- **Audio Handling APIs**: `<APIs>` are used for recording, editing, and listening to audio files, as well as for transcribing them into text.
-- **Database**: `<Database management system name>` is used to store received text and audio feedback, as well as transcriptions of audio files.
+- **Audio Handling APIs**: MediaStream API is used for recording, editing, and listening to audio files.
+- **Transcription AI Model**: Whisper local AI model is used for transcribing audio and video files into text.
+- **Database**: SQLite is used to store received text and audio feedback, as well as transcriptions of audio files.
 
 ---
 
