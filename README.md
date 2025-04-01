@@ -1,11 +1,3 @@
-# Introduction
-Here you introduce the project
+# Feedback App
 
-Name:
-Group 3v
-
-Members:
-Syandana, Mihaela, Simona, Maksim, Danylo, Julie
-
-Assignment and client info:
-the assignment and client info.
+All documentation including deployment manual can be found in [docs](docs) folder
